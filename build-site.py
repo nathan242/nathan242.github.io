@@ -59,7 +59,7 @@ for c in os.listdir(content):
                 elif line.startswith("=="):
                     in_content = True
             else:
-                page_content[title] += line
+                page_content[title] += "       "+line
 
     if category != "" and category not in menu_data.keys():
         menu_data[category] = {}
@@ -76,7 +76,7 @@ for c in os.listdir(content):
 # Build side menu
 print "Building side menu."
 for m in sorted(menu_data.keys()):
-    menu_content += "      <p><strong>"+m.split(":")[1]+"</strong></p>\n"
+    menu_content += "        <p><strong>"+m.split(":")[1]+"</strong></p>\n"
     menu_content += "        <ul>\n"
     for i in sorted(menu_data[m].keys()):
         if menu_data[m][i]["TITLE"] != "":
@@ -102,19 +102,21 @@ for p in page_content.keys():
         outfile.write("    <div class='top-section'>\n")
         outfile.write("      <p>NATHAN242's Projects Page</p>\n")
         outfile.write("    </div>\n")
-        outfile.write("    <div class='left-section'>\n")
-        outfile.write("      <ul>\n")
-        outfile.write("        <li><a href='index.html'>Home</a></li>\n")
-        outfile.write("      </ul>\n")
+        outfile.write("    <div class='cols'>\n")
+        outfile.write("      <div class='left-section'>\n")
+        outfile.write("        <ul>\n")
+        outfile.write("          <li><a href='index.html'>Home</a></li>\n")
+        outfile.write("        </ul>\n")
 
         outfile.write(menu_content)
 
-        outfile.write("    </div>\n")
+        outfile.write("      </div>\n")
 
-        outfile.write("    <div class='right-section'>\n")
+        outfile.write("      <div class='right-section'>\n")
 
         outfile.write(page_content[p])
         
+        outfile.write("      </div>\n")
         outfile.write("    </div>\n")
         outfile.write("  </body>\n")
         outfile.write("</html>")
