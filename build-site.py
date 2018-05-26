@@ -59,7 +59,7 @@ for c in os.listdir(content):
                 elif line.startswith("=="):
                     in_content = True
             else:
-                page_content[title] += "       "+line
+                page_content[title] += line
 
     if category != "" and category not in menu_data.keys():
         menu_data[category] = {}
