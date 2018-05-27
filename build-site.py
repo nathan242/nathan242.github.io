@@ -96,7 +96,7 @@ for p in page_content.keys():
         outfile.write("<!doctype html>\n")
         outfile.write("  <head>\n")
         outfile.write("    <link rel='stylesheet' href='css/style.css'>\n")
-        outfile.write("    <title>Nathan's Projects</title>\n")
+        outfile.write("    <title>NATHAN242's Projects</title>\n")
         outfile.write("  </head>\n")
         outfile.write("  <body>\n")
         outfile.write("    <div class='top-section'>\n")
@@ -113,6 +113,7 @@ for p in page_content.keys():
         outfile.write("      </div>\n")
 
         outfile.write("      <div class='right-section'>\n")
+        outfile.write("        <br>\n")
 
         outfile.write(page_content[p])
         
