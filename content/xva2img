@@ -1,0 +1,21 @@
+TITLE=XVA2IMG
+CATEGORY=20:Tools
+DESC=Extract IMG disk images from XVA files
+ORDER=20
+==
+<h1>XVA2IMG</h1>
+<p>Project repo: <a href='https://github.com/nathan242/xva2img'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>Extracts disk images from XenServer XVA files.</p>
+<div class='code'>
+<pre>
+Convert XVA file to IMG.
+USAGE: 
+xva2img.py [XVA FILE]
+</pre>
+</div>
+
+<p>Disk images are extracted into the current directory.</p>
+<p>There is an alternative version called "xva2img-extract.py" that will extract the full file structure from the XVA file to a folder before rebuilding the image files. This allows you to examine the XVA contents and perform other tasks after image extraction.</p>
+

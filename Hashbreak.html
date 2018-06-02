@@ -43,21 +43,33 @@
       </div>
       <div class='right-section'>
         <br>
-<p>Welcome to my Github projects site!</p>
-<p>This site is mainly about my Github projects but I may also add some other things here over time.<br>
-Most of the projects I have on Github were created for the sake of learning, but some were also created for a real purpose.<p>
-<p><a href='https://github.com/nathan242'>Nathan242 on GitHub</a></p>
+<h1>Hashbreak</h1>
+<p>Project repo: <a href='https://github.com/nathan242/hashbreak'>LINK</a></p>
 
-<h4>A few things about me</h4>
-<p>Self taught sysadmin and programmer<br>
-Programing languages: C/C++, Python, PHP<br>
-Favourite editor: ViM<br>
-Favourite OS: Debian GNU/Linux<br>
-MBTI: INTJ (The Architect)<p>
+<h4>Introduction</h4>
+<p>Single threaded MD5 and SHA256 hash brute forcer. I wrote this for the sake of learning.<br>
+In the future I hope to create a multi-threaded version.</p>
 
-<h4>About this site</h4>
-<p>This site is built using my build script: <a href="build-site.py">build-site.py</a><br>
-The script builds the static pages using the content defined in the "/content/" directory.</p>
+<div class='code'>
+<pre>
+Single threaded hash brute forcer v0.10.
+Usage: ./hashbreak -s [HASH_TYPE] -c [HASH]
+-s Specify the type of hash. Supported: "md5" and "sha256".
+-c The hash code to break.
+-b Brute force using the specified characters.
+-l Start at the specified test string length.
+Default brute force characters: abcdefghijklmnopqsrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!"£$%^&*()_+-=
+Max test string length: 256
+</pre>
+</div>
+
+<h4>Features</h4>
+<ul>
+  <li>Brute force hash from command line.</li>
+  <li>Outputs test string length every time it changes.</li>
+  <li>Customizable character set.</li>
+</ul>
+
       </div>
     </div>
   </body>

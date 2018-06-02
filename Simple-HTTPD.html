@@ -43,21 +43,36 @@
       </div>
       <div class='right-section'>
         <br>
-<p>Welcome to my Github projects site!</p>
-<p>This site is mainly about my Github projects but I may also add some other things here over time.<br>
-Most of the projects I have on Github were created for the sake of learning, but some were also created for a real purpose.<p>
-<p><a href='https://github.com/nathan242'>Nathan242 on GitHub</a></p>
+<h1>Simple-HTTPD</h1>
+<p>Project repo: <a href='https://github.com/nathan242/simple-httpd'>LINK</a></p>
 
-<h4>A few things about me</h4>
-<p>Self taught sysadmin and programmer<br>
-Programing languages: C/C++, Python, PHP<br>
-Favourite editor: ViM<br>
-Favourite OS: Debian GNU/Linux<br>
-MBTI: INTJ (The Architect)<p>
+<h4>Introduction</h4>
+<p>This is a simple HTTP daemon that I wrote for the sake of learning more about C/C++.
 
-<h4>About this site</h4>
-<p>This site is built using my build script: <a href="build-site.py">build-site.py</a><br>
-The script builds the static pages using the content defined in the "/content/" directory.</p>
+<div class="code">
+<pre>
+Simple HTTP Daemon v0.01. [Mar 31 2018 11:09:49]
+Usage: ./nphttpd -p [TCP_PORT] -r [WEB_ROOT] -i [DEFAULT_INDEX] -m [MAGIC_DB] -a -l
+ -p [TCP_PORT] - TCP port to listen on. Default = 80.
+ -r [WEB_ROOT] - Directory for web root. Default = current working directory.
+ -i [DEFAULT_INDEX] - Default index file. Default = "index.html".
+ -m [MAGIC_DB] - Path to alternate magic database.
+ -a - Use automatic directory index when default index is missing.
+ -l - Enable logging to STDOUT.
+</pre>
+</div>
+
+<h4>Features</h4>
+<ul>
+  <li>Uses libmagic to get the content type of files it serves.</li>
+  <li>Forks for each connected client.</li>
+  <li>Can generate an auto-index page if main index page is missing.</li>
+  <li>Currently only supports GET requests.</li>
+</ul>
+
+<p>Functionality is basic and it should only be used for demonstration purposes.<br>
+I will probably add more functionality over time.</p>
+
       </div>
     </div>
   </body>

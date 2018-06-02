@@ -1,0 +1,76 @@
+TITLE=Chrome History Monitor
+CATEGORY=20:Tools
+DESC=Chrome browser remote history monitoring
+ORDER=30
+==
+<h1>Chrome History Monitor</h1>
+<p>File: <a href='https://github.com/nathan242/sysadmin-tools/blob/master/chrome_history_monitor.py'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>This utility allows you to view a remote users Chrome browser history and optionally capture it to a MySQL or SQLite database.<br>
+It is intended to aid system administrators in checking users Internet usage.</p>
+<div class='code'>
+<pre>
+=== Chrome History Tracker ===
+Usage:
+./chrome_history_monitor.py [-h] --history_db=FILE --working_dir=DIR --wait=SECONDS [--storage_type=mysql|sqlite3 --table_name=TABLE --commit_every=N [--mysql_host=HOST --mysql_user=USER --mysql_password=PASS --mysql_db=DB] [--sqlite_file=DB]]
+
+Main options:
+ -h                                  Show this help.
+ --history_db=FILE                   Location of Chrome history DB file.
+ --working_dir=DIR                   Working directory for data.
+ --wait=SECONDS                      Time to wait before refreshing history data.
+
+Data capture options:
+ --storage_type=mysql|sqlite3        Capture history data to DB. Can use MySQL or Sqlite3 DB.
+ --table_name=TABLE                  Name of DB table to store data.
+ --commit_every=N                    Commit DB transaction every N inserts.
+
+MySQL options:
+ --mysql_host=HOST                   MySQL server address.
+ --mysql_user=USER                   MySQL username.
+ --mysql_password=PASS               MySQL password.
+ --mysql_db=DB                       MySQL DB name.
+
+Sqlite3 options:
+ --sqlite_file=DB                    Sqlite3 DB file to use.
+</pre>
+</div>
+
+<p>This utility works by making a local copy of the Chrome history database then parsing its contents. History will be dumped to the console and optionally a database. In order to grab a remote users history, you will need a way to access the history DB file on their machine such as SMB or NFS. Once all history has been dumped, the history DB file will be copied periodically (default is every 30 seconds) and checked for changes. This gives you a near real time view of a users browser usage.</p>
+
+<h4>Example</h4>
+<p>The following example will capture the Chrome browser history from a user on a remote Windows system and save it to a local SQLite3 database:
+<div class='code'>
+<pre>
+./chrome_history_monitor.py --history_db="\\workstation\C$\Users\mr.test\AppData\Local\Google\Chrome\User Data\Default\History" --working_dir="C:\temp" --storage_type=sqlite3 --sqlite_file="C:\hist.db"
+</pre>
+</div>
+
+<p>The remote history database is specified with the "--history_db" option. This example assumes that the user is using the "default" profile.</p>
+<div class='code'>
+<pre>
+--history_db="\\workstation\C$\Users\mr.test\AppData\Local\Google\Chrome\User Data\Default\History"
+</pre>
+</div>
+
+<p>A local working folder needs to be specified by "--working_dir". This is where the history file is copied to before being parsed.</p>
+<div class='code'>
+<pre>
+--working_dir="C:\temp"
+</pre>
+</div>
+
+<p>Saving to database is optional. This example saves data to a SQLite3 file.</p>
+<div class='code'>
+<pre>
+--storage_type=sqlite3 --sqlite_file="C:\hist.db"
+</pre>
+</div>
+
+<h4>Issues</h4>
+<ul>
+  <li>Cannot capture history from incognito mode.</li>
+  <li>If a user clears their history while you are monitoring them, this utility will stop seeing changes to the history file due to the "id" field being reset.</li>
+</ul>
+

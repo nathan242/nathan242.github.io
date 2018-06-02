@@ -43,21 +43,24 @@
       </div>
       <div class='right-section'>
         <br>
-<p>Welcome to my Github projects site!</p>
-<p>This site is mainly about my Github projects but I may also add some other things here over time.<br>
-Most of the projects I have on Github were created for the sake of learning, but some were also created for a real purpose.<p>
-<p><a href='https://github.com/nathan242'>Nathan242 on GitHub</a></p>
+<h1>Photo2A4</h1>
+<p>Project repo: <a href='https://github.com/nathan242/photo2a4'>LINK</a></p>
 
-<h4>A few things about me</h4>
-<p>Self taught sysadmin and programmer<br>
-Programing languages: C/C++, Python, PHP<br>
-Favourite editor: ViM<br>
-Favourite OS: Debian GNU/Linux<br>
-MBTI: INTJ (The Architect)<p>
+<h4>Introduction</h4>
+<p>This program will create an A4 sized PNG image file with up to 3 scaled images inserted onto it. The images will be sized to 6"x4" so this can be used to prepare photos for printing. I created this as I did not like the way that the Windows print wizard would scale and crop photos on an A4 sheet.</p>
 
-<h4>About this site</h4>
-<p>This site is built using my build script: <a href="build-site.py">build-site.py</a><br>
-The script builds the static pages using the content defined in the "/content/" directory.</p>
+<h4>Usage</h4>
+<p>From the command line you can specify 1-3 images:</p>
+<div class='code'>
+<pre>
+photo2A4.py [image1] [image2] [image3]
+</pre>
+</div>
+<p>It will output a file called "A4.png" in the current directory. You can change the output file name and location by editing the "resultfile" variable within the script. If you are running on Windows, it will automatically open the output file in the image viewer. You can disable this by setting "openresult" to "False" within the script.</p>
+
+<p>On Windows systems you can call this script from the "send to" menu. This allows you to highlight up to 3 images in Windows Explorer then generate a printable A4 by simply right-clicking and sending "to A4".</p>
+<p>To do this, navigate in Windows Explorer to "shell:sendto", then create a shortcut to the photo2A4.py script in this directory. It can also be good to set a fixed location for the output file within the script (e.g. desktop).</p>
+
       </div>
     </div>
   </body>

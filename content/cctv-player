@@ -1,0 +1,34 @@
+TITLE=CCTV-Player
+CATEGORY=10:Projects
+DESC=Simple multi-source stream viewer based on VLC.
+ORDER=30
+==
+<h1>CCTV-Player</h1>
+<p>Project repo: <a href='https://github.com/nathan242/cctv-player'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>A simple multi-source video stream viewer based on VLC.<br>
+I originally created this as a CCTV camera viewer but it can show streams from any VLC compatible URL.</p>
+<img src='images/cctv-player-main.png'>
+
+<p>Configuration is read from the config file on startup. There you can define the window title, number of videos per row and each video source.</p>
+<div class='code'>
+<pre>
+# Window title
+window_title = CCTV Viewer
+
+# How many videos per row
+max_vids_x = 2
+
+source-1 = rtsp://10.0.0.1/stream
+source-2 = rtsp://10.0.0.2/stream
+source-3 = rtsp://10.0.0.3/stream
+source-4 = rtsp://10.0.0.4/stream
+#source-5 = 
+# etc...
+</pre>
+</div>
+
+<p>You can also set the configuration at the start of the program although changes will not be saved back to the config file.</p>
+<img src='images/cctv-player-conf.png'>
+

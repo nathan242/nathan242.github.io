@@ -43,21 +43,35 @@
       </div>
       <div class='right-section'>
         <br>
-<p>Welcome to my Github projects site!</p>
-<p>This site is mainly about my Github projects but I may also add some other things here over time.<br>
-Most of the projects I have on Github were created for the sake of learning, but some were also created for a real purpose.<p>
-<p><a href='https://github.com/nathan242'>Nathan242 on GitHub</a></p>
+<h1>CCTV-Player</h1>
+<p>Project repo: <a href='https://github.com/nathan242/cctv-player'>LINK</a></p>
 
-<h4>A few things about me</h4>
-<p>Self taught sysadmin and programmer<br>
-Programing languages: C/C++, Python, PHP<br>
-Favourite editor: ViM<br>
-Favourite OS: Debian GNU/Linux<br>
-MBTI: INTJ (The Architect)<p>
+<h4>Introduction</h4>
+<p>A simple multi-source video stream viewer based on VLC.<br>
+I originally created this as a CCTV camera viewer but it can show streams from any VLC compatible URL.</p>
+<img src='images/cctv-player-main.png'>
 
-<h4>About this site</h4>
-<p>This site is built using my build script: <a href="build-site.py">build-site.py</a><br>
-The script builds the static pages using the content defined in the "/content/" directory.</p>
+<p>Configuration is read from the config file on startup. There you can define the window title, number of videos per row and each video source.</p>
+<div class='code'>
+<pre>
+# Window title
+window_title = CCTV Viewer
+
+# How many videos per row
+max_vids_x = 2
+
+source-1 = rtsp://10.0.0.1/stream
+source-2 = rtsp://10.0.0.2/stream
+source-3 = rtsp://10.0.0.3/stream
+source-4 = rtsp://10.0.0.4/stream
+#source-5 = 
+# etc...
+</pre>
+</div>
+
+<p>You can also set the configuration at the start of the program although changes will not be saved back to the config file.</p>
+<img src='images/cctv-player-conf.png'>
+
       </div>
     </div>
   </body>

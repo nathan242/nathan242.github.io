@@ -1,0 +1,135 @@
+<!doctype html>
+  <head>
+    <link rel='stylesheet' href='css/style.css'>
+    <title>NATHAN242's Projects</title>
+  </head>
+  <body>
+    <div class='top-section'>
+      <p>NATHAN242's Projects Page</p>
+    </div>
+    <div class='cols'>
+      <div class='left-section'>
+        <ul>
+          <li><a href='index.html'>Home</a></li>
+        </ul>
+        <p><strong>Projects</strong></p>
+        <ul>
+          <li><a href='IPCAM-CCTV.html'>IPCAM-CCTV</a></li>
+          <span class='link-subtext'>CCTV recording management system</span>
+          <li><a href='Photo2A4.html'>Photo2A4</a></li>
+          <span class='link-subtext'>Place 3 6x4 images on an A4 image to print</span>
+          <li><a href='CCTV-Player.html'>CCTV-Player</a></li>
+          <span class='link-subtext'>Simple multi-source stream viewer based on VLC.</span>
+          <li><a href='Simple-HTTPD.html'>Simple-HTTPD</a></li>
+          <span class='link-subtext'>Basic HTTP server</span>
+          <li><a href='SDL-Pong.html'>SDL-Pong</a></li>
+          <span class='link-subtext'>Simple pong game using SDL</span>
+          <li><a href='Hashbreak.html'>Hashbreak</a></li>
+          <span class='link-subtext'>MD5 and SHA256 hash brute forcer</span>
+        </ul>
+        <p><strong>Tools</strong></p>
+        <ul>
+          <li><a href='SMTPt.html'>SMTPt</a></li>
+          <span class='link-subtext'>SMTP server testing tool</span>
+          <li><a href='XVA2IMG.html'>XVA2IMG</a></li>
+          <span class='link-subtext'>Extract IMG disk images from XVA files</span>
+          <li><a href='Chrome_History_Monitor.html'>Chrome History Monitor</a></li>
+          <span class='link-subtext'>Chrome browser remote history monitoring</span>
+          <li><a href='Bash_Scripts.html'>Bash Scripts</a></li>
+          <span class='link-subtext'>Collection of bash scripts</span>
+          <li><a href='Powershell_Scripts.html'>Powershell Scripts</a></li>
+          <span class='link-subtext'>Collection of powershell scripts</span>
+        </ul>
+      </div>
+      <div class='right-section'>
+        <br>
+<h1>SDL-Pong</h1>
+<p>Project repo: <a href='https://github.com/nathan242/sdl-pong'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>This is a simple Pong clone I created while learning about C/C++ and SDL. It has a basic physics system and simple AI for the opponent.</p>
+<img src='images/sdl-pong-main.png'>
+
+<h4>Details</h4>
+<p>Use the arrow keys to move your paddle or press Q to quit. The first player to score 10 wins. The AI is currently very simple and just moves depending on the current position of the ball on the y-axis. Hitting the ball at the bottom or top edge of the paddle causes it to move at a sharper angle.</p>
+<p>Getting the physics of the ball to work correctly was one of the biggest challenges. I ended up creating a simple physics C++ class to handle this. It is basic but can support an unlimited number of physics "objects".<br>
+It works by moving through a linked list of C structs that represent physics objects and checking if anything is colliding. If a collision is found it will adjust the movement variables for the colliding objects. You can also assign a callback function to be called when an object collides (this is used on the ball to detect a successful score).<p>
+<p>To use the class, create your physics objects then add them to a class intance. This is how it is currently used:</p>
+<div class='code'>
+<pre>
+phys_obj *paddle_left = new phys_obj;
+phys_obj *paddle_right = new phys_obj;
+phys_obj *ball = new phys_obj;
+
+// Left paddle
+paddle_left->sprite = SDL_DisplayFormat(IMG_Load("paddle.png"));
+paddle_left->pos_x = 50;
+paddle_left->pos_y = 100;
+paddle_left->size_x = 20;
+paddle_left->size_y = 100;
+paddle_left->step_x = 0;
+paddle_left->step_y = 0;
+paddle_left->delay = 0;
+paddle_left->delay_counter = 0;
+paddle_left->bounce = 0;
+paddle_left->collided = NULL;
+paddle_left->callback = NULL;
+
+// Right paddle
+paddle_right->sprite = SDL_DisplayFormat(IMG_Load("paddle.png"));
+paddle_right->pos_x = 570;
+paddle_right->pos_y = 350;
+paddle_right->size_x = 20;
+paddle_right->size_y = 100;
+paddle_right->step_x = 0;
+paddle_right->step_y = 0;
+paddle_right->delay = 0;
+paddle_right->delay_counter = 0;
+paddle_right->bounce = 0;
+paddle_right->collided = NULL;
+paddle_right->callback = NULL;
+
+// Ball
+ball->sprite = SDL_DisplayFormat(IMG_Load("ball.png"));
+ball->pos_x = 300;
+ball->pos_y = 100;
+ball->size_x = 20;
+ball->size_y = 20;
+ball->step_x = 1;
+ball->step_y = 1;
+ball->delay = 0;
+ball->delay_counter = 0;
+ball->bounce = 1;
+ball->collided = NULL;
+ball->callback = collision_callback;
+
+// Physics
+phys *physics = new phys(resX, resY);
+physics->add_object(paddle_left);
+physics->add_object(paddle_right);
+physics->add_object(ball);
+</pre>
+</div>
+<p>In the main program loop you can advance the physics by just doing:</p>
+<div class='code'>
+<pre>
+// Advance physics
+physics->advance();
+</pre>
+</div>
+<p>This will update all the physics objects positions.</p>
+
+<h4>Issues</h4>
+<ul>
+  <li>Very simple AI.</li>
+  <li>Physics implementation has a few bugs. Some odd behaviours have been observed.</li>
+  <li>No menu system. Game will start immediately.</li>
+  <li>No sound.</li>
+  <li>Probably other bugs I have not found yet...</li>
+</ul>
+<p>I will push updates to try and fix some of those when I get the time. Others may contribute if they wish.</p>
+
+      </div>
+    </div>
+  </body>
+</html>

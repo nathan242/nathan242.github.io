@@ -1,0 +1,81 @@
+TITLE=Bash Scripts
+CATEGORY=20:Tools
+DESC=Collection of bash scripts
+ORDER=110
+==
+<h1>Bash Scripts</h1>
+
+<h4><a href='https://github.com/nathan242/sysadmin-tools/blob/master/apachetop.sh'>apachetop.sh</a></h4>
+<p>Shows Apache status in a way similar to the "top" utility.<br>
+Run it as root via the "watch" command:</p>
+<div class='code'>
+<pre>
+sudo watch ./apachetop.sh
+</pre>
+</div>
+<p>Output:</p>
+<div class='code'>
+<pre>
+HTTPD PROCESSES: 8  SOCKETS -- ESTAB: 0  WAIT: 0  FIN: 0  LISTEN: 0
+Srv    PID   Acc          M CPU   SS   Req  Conn   Child Slot  Client          VHost                      Request
+                                                                    HTTP/1.1       
+                                                                    HTTP/1.1       
+                                                                    GET            
+                                                                    GET            
+6-0 4494 0/9/9   W 0.00 0   0   0.0  0.00  0.00 ::1       127.0.1.1 /server-status 
+5-0 4263 0/2/2   _ 0.00 306 0   0.0  0.00  0.00 127.0.0.1 127.0.1.1 /css/style.css 
+4-0 3721 0/17/17 _ 0.00 254 0   0.0  0.01  0.01 127.0.0.1 127.0.1.1 NULL           
+3-0 3720 0/11/11 _ 0.00 90  0   0.0  0.01  0.01 127.0.0.1 127.0.1.1 NULL           
+2-0 3719 0/19/19 _ 0.00 141 0   0.0  0.01  0.01 127.0.0.1 127.0.1.1 NULL           
+1-0 3718 0/10/10 _ 0.00 167 0   0.0  0.00  0.00 127.0.0.1 127.0.1.1 NULL           
+0-0 3717 0/14/14 _ 0.00 173 0   0.0  0.01  0.01 127.0.0.1 127.0.1.1 NULL           
+</pre>
+</div>
+
+<hr>
+
+<h4><a href='https://github.com/nathan242/sysadmin-tools/blob/master/mysql_cache_utilization.sh'>mysql_cache_utilization.sh</a></h4>
+<p>Shows information about the MySQL query cache.<br>
+Usage:</p>
+<div class='code'>
+<pre>
+./mysql_cache_utilization.sh [SOCKET] [USER] (optional)[PASSWORD]
+</pre>
+</div>
+<p>Output:</p>
+<div class='code'>
+<pre>
+=== MYSQL CACHE UTILIZATION ===
+Query_cache_size: 16777216
+Com_select: 74
+Qcache_hits: 0
+Qcache_inserts: 0
+Qcache_not_cached: 71
+Qcache_free_memory: 16759696
+Qcache_lowmem_prunes: 0
+
+Cache Utilization: 0%
+Cache Used: 0%
+Hit Rate: 0%
+Insert To Prune Ratio: 
+</pre>
+</div>
+
+<hr>
+
+<h4><a href='https://github.com/nathan242/sysadmin-tools/blob/master/import-status.sh'>import-status.sh</a></h4>
+<p>This script will give you an estimated progress of a MySQL database import.<br>
+Import your SQL file by redirecting the file as STDIN:</p>
+<div class='code'>
+<pre>
+mysql -u root -ppassword < db.sql
+</pre>
+</div>
+<p>Get the PID of the mysql process running the import and pass it to this script:</p>
+<div class='code'>
+<pre>
+./import-status.sh 1476
+</pre>
+</div>
+<p>This will read the file pointer location within the input SQL file and output an estimated percentage.</p>
+

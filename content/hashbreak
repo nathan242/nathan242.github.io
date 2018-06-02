@@ -1,0 +1,32 @@
+TITLE=Hashbreak
+CATEGORY=10:Projects
+DESC=MD5 and SHA256 hash brute forcer
+ORDER=60
+==
+<h1>Hashbreak</h1>
+<p>Project repo: <a href='https://github.com/nathan242/hashbreak'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>Single threaded MD5 and SHA256 hash brute forcer. I wrote this for the sake of learning.<br>
+In the future I hope to create a multi-threaded version.</p>
+
+<div class='code'>
+<pre>
+Single threaded hash brute forcer v0.10.
+Usage: ./hashbreak -s [HASH_TYPE] -c [HASH]
+-s Specify the type of hash. Supported: "md5" and "sha256".
+-c The hash code to break.
+-b Brute force using the specified characters.
+-l Start at the specified test string length.
+Default brute force characters: abcdefghijklmnopqsrtuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890!"£$%^&*()_+-=
+Max test string length: 256
+</pre>
+</div>
+
+<h4>Features</h4>
+<ul>
+  <li>Brute force hash from command line.</li>
+  <li>Outputs test string length every time it changes.</li>
+  <li>Customizable character set.</li>
+</ul>
+

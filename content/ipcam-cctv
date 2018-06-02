@@ -1,0 +1,77 @@
+TITLE=IPCAM-CCTV
+CATEGORY=10:Projects
+DESC=CCTV recording management system
+ORDER=10
+==
+<h1>IPCAM-CCTV</h1>
+<p>Project repo: <a href='https://github.com/nathan242/ipcam-cctv'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>This creation came about as a result of my frustration with CCTV recording systems (NVR's and several applications). Such systems have always been unreliable and unstable in my experience.<br><br>
+I soon discovered that VLC was a good client for connecting to and testing network CCTV cameras so I figured, why not script a load of VLC processes to run and capture camera output to disk?<br>
+I ended up with a few PHP command line scripts that would launch VLC processes using camera configuration stored in a database (this was an early version of the scripts found in the "/control/" directory).<br>
+This proved to work quite well so I ended up building a web interface for management of cameras around this functionality.<br>
+</p>
+<img src='images/ipcam-main.png' width='650' height='374'>
+
+<h4>Features</h4>
+<ul>
+  <li>Camera configurations stored in a database table. For each camera you can define the URL and credentials required to get the video stream.</li>
+  <li>Provides the ability to start and stop recording of each camera.</li>
+  <li>Logs activity, including when cameras lose connectivity. It is possible to have a monitoring system such as Nagios check the log table and warn about failing cameras.</li>
+  <li>You can set certain cameras to record to alternate locations with different settings. You can set a disk usage limit for each location.</li>
+  <li>Ability to play recordings in the web interface if they are in a supported format.</li>
+  <li>Cron jobs to remove old recordings, clean up blank/failed files and restart all recordings to create a new set of files.</li>
+</ul>
+
+<h4>Known issues</h4>
+<ul>
+  <li>Recording in MP4 causes VLC to take a long time to stop and killing the process can result in an unplayable file. MP4 is ideal as you can play the video directly in the web interface. I have only tested this with a single version of VLC so far.</li>
+  <li>Undefined behaviour when certain settings are blank such as "recording_directory".</li>
+  <li>There are likely to be a few bugs. I will continue to push updates as I find them.</li>
+</ul>
+
+<h4>Planned Features</h4>
+<ul>
+  <li>Implement recording "modules" that allow the use of programs other than VLC for capture.</li>
+</ul>
+
+<h4>Details</h4>
+<p>The recording functionality is implemented using the scripts in the "/control/" directory. Those scripts can be called at the command line in order to start or stop recording. This also allows you to build a different interface around the system.<p>
+<p>You can start recording for a device with:</p>
+<div class='code'>
+<pre>
+php -f start-single.php [CAMERA_NAME]
+</pre>
+</div>
+<p>Or start all cameras with:</p>
+<div class='code'>
+<pre>
+php -f start-all.php
+</pre>
+</div>
+<p>Those scripts will launch 'spawn-vlc.php' in the background for each camera. This script will launch and monitor a VLC process for recording. You can also launch this script directly but this should only be done for troubleshooting:</p>
+<div class='code'>
+<pre>
+php -f spawn-vlc.php [CAMERA_NAME]
+</pre>
+</div>
+<p>The other scripts can be used to stop or reload camera recording:</p>
+<div class='code'>
+<pre>
+php -f reload-single.php [CAMERA_NAME]
+php -f reload-all.php
+php -f stop-single.php [CAMERA_NAME]
+php -f stop-all.php
+</pre>
+</div>
+<p><strong>NOTE:</strong> Make sure that the user you invoke those scripts as, has the relevant permissions to write to the recordings, logs and PIDs directories. Also, you cannot stop cameras from the web interface if the web server user does not have permission to kill processes owned by the invoking user.</p>
+<p>Configuration is stored in a MySQL/MariaDB database. There are 4 tables:</p>
+<ul>
+  <li><strong>users</strong> - Web interface login account details.</li>
+  <li><strong>devices</strong> - Camera details such as IP, URL and credentials.</li>
+  <li><strong>camera_log</strong> - Log of camera events.</li>
+  <li><strong>config</strong> - Key/value store for system settings.</li>
+</ul>
+<p>The config table stores global configuration and can also store configuration overides for individual cameras. This allows you to do things such as set a different recording location for a specific camera.</p>
+

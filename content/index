@@ -1,0 +1,17 @@
+TITLE=index
+==
+<p>Welcome to my Github projects site!</p>
+<p>This site is mainly about my Github projects but I may also add some other things here over time.<br>
+Most of the projects I have on Github were created for the sake of learning, but some were also created for a real purpose.<p>
+<p><a href='https://github.com/nathan242'>Nathan242 on GitHub</a></p>
+
+<h4>A few things about me</h4>
+<p>Self taught sysadmin and programmer<br>
+Programing languages: C/C++, Python, PHP<br>
+Favourite editor: ViM<br>
+Favourite OS: Debian GNU/Linux<br>
+MBTI: INTJ (The Architect)<p>
+
+<h4>About this site</h4>
+<p>This site is built using my build script: <a href="build-site.py">build-site.py</a><br>
+The script builds the static pages using the content defined in the "/content/" directory.</p>

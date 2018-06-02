@@ -43,21 +43,31 @@
       </div>
       <div class='right-section'>
         <br>
-<p>Welcome to my Github projects site!</p>
-<p>This site is mainly about my Github projects but I may also add some other things here over time.<br>
-Most of the projects I have on Github were created for the sake of learning, but some were also created for a real purpose.<p>
-<p><a href='https://github.com/nathan242'>Nathan242 on GitHub</a></p>
+<h1>SMTPt</h1>
+<p>File: <a href='https://github.com/nathan242/sysadmin-tools/blob/master/SMTPt.py'>LINK</a></p>
 
-<h4>A few things about me</h4>
-<p>Self taught sysadmin and programmer<br>
-Programing languages: C/C++, Python, PHP<br>
-Favourite editor: ViM<br>
-Favourite OS: Debian GNU/Linux<br>
-MBTI: INTJ (The Architect)<p>
+<h4>Introduction</h4>
+<p>Simple SMTP server testing script.</p>
+<p>You can use this to send an email via a specified SMTP server. All data sent and received will be output to the console. Useful for testing if an SMTP server is set up correctly.</p>
 
-<h4>About this site</h4>
-<p>This site is built using my build script: <a href="build-site.py">build-site.py</a><br>
-The script builds the static pages using the content defined in the "/content/" directory.</p>
+<div class='code'>
+<pre>
+=== SMTP Tester ===
+Usage:
+./SMTPt.py [SMTP_SERVER] [FROM] [TO] [SUBJECT] [BODY]
+./SMTPt.py [SMTP_SERVER] [FROM] [TO] - < [DATA]
+</pre>
+</div>
+
+<p>Example:</p>
+<div class='code'>
+<pre>
+./SMTPt.py smtp.example.org "&lt;sender@example.org&gt;" "&lt;recipient@example.org&gt;" "Test email" "Hello World!"
+</pre>
+</div>
+
+<p>Instead of [SUBJECT] and [BODY], you can specify "-" to use data from STDIN as message data.</p>
+
       </div>
     </div>
   </body>

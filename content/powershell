@@ -1,0 +1,52 @@
+TITLE=Powershell Scripts
+CATEGORY=20:Tools
+DESC=Collection of powershell scripts
+ORDER=120
+==
+<h1>Powershell Scripts</h1>
+
+<h4><a href='https://github.com/nathan242/sysadmin-tools/blob/master/pswd_expire_alert.ps1'>pswd_expire_alert.ps1</a></h4>
+<p>A powershell script that sends out a password expiry warning email to users when their password is due to expire. It will also write an event log entry for each notification sent. This script should be ran daily from a scheduled task.</p>
+<p>Before you use the script for the first time you will need to create the event log. Use the following commands to do this:</p>
+<div class='code'>
+<pre>
+New-EventLog -LogName "Password Management" -Source "Password Expiry"
+New-EventLog -LogName "Password Management" -Source "Password Expiry Email"
+</pre>
+</div>
+<p>Those commands are also commented out within the script. You can uncomment them for the first run of the script only, otherwise you will get an error.</p>
+<p>At the top of the script there are 2 variables that need to be set:</p>
+<div class='code'>
+<pre>
+$alert_days = 14 # Number of days until password expiry when a user will be notified
+$smtp_server = "10.0.90.30" # SMTP server address
+</pre>
+</div>
+<p>The email template within the script should be customized before use.</p>
+
+<hr>
+
+<h4><a href='https://github.com/nathan242/sysadmin-tools/blob/master/map-drives.ps1'>map-drives.ps1</a></h4>
+<p>This script will map certain network drives depending on what groups the current user is a member of. This is an alternative to using group policy to map drives directly. You can set this script as a login script within group policy.</p>
+<p>There are 2 arrays within the script that need to be configured:</p>
+<p><strong>$netdrvs</strong> - This array contains a list of network drives, prefered drive letter, UNC path, and alternate paths for the share.<br>
+The alternate paths array prevents the drive from being mapped if it is already mapped via a different possible path (e.g IP address).</p>
+<div class='code'>
+<pre>
+$netdrvs = @{
+    "Files" = ("F:", "\\server.local\Files", @("\\server\Files", "\\10.0.0.1\Files"));
+    "Backup" = ("B:", "\\server.local\Backup", @("\\server\Backup", "\\10.0.0.1\Backup"))
+}
+</pre>
+</div>
+<p><strong>$grpdrvs</strong> - This array contains a list of groups and the name of the drive to map for each.</p>
+<div class='code'>
+<pre>
+$grpdrvs = @(
+    ("domain.local\shares_files", "Files"),
+    ("domain.local\shares_backup", "Backup")
+)
+</pre>
+</div>
+<p>You can create a group for each network drive and adding a user to that group will cause the drive to automatically map when the user next logs in.</p>
+

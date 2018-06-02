@@ -1,0 +1,30 @@
+TITLE=SMTPt
+CATEGORY=20:Tools
+DESC=SMTP server testing tool
+ORDER=10
+==
+<h1>SMTPt</h1>
+<p>File: <a href='https://github.com/nathan242/sysadmin-tools/blob/master/SMTPt.py'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>Simple SMTP server testing script.</p>
+<p>You can use this to send an email via a specified SMTP server. All data sent and received will be output to the console. Useful for testing if an SMTP server is set up correctly.</p>
+
+<div class='code'>
+<pre>
+=== SMTP Tester ===
+Usage:
+./SMTPt.py [SMTP_SERVER] [FROM] [TO] [SUBJECT] [BODY]
+./SMTPt.py [SMTP_SERVER] [FROM] [TO] - < [DATA]
+</pre>
+</div>
+
+<p>Example:</p>
+<div class='code'>
+<pre>
+./SMTPt.py smtp.example.org "&lt;sender@example.org&gt;" "&lt;recipient@example.org&gt;" "Test email" "Hello World!"
+</pre>
+</div>
+
+<p>Instead of [SUBJECT] and [BODY], you can specify "-" to use data from STDIN as message data.</p>
+
