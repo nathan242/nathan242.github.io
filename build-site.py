@@ -100,7 +100,7 @@ for p in page_content.keys():
         outfile.write("  </head>\n")
         outfile.write("  <body>\n")
         outfile.write("    <div class='top-section'>\n")
-        outfile.write("      <p>NATHAN242's Projects Page</p>\n")
+        outfile.write("      <p>NATHAN242's Projects</p>\n")
         outfile.write("    </div>\n")
         outfile.write("    <div class='cols'>\n")
         outfile.write("      <div class='left-section'>\n")
