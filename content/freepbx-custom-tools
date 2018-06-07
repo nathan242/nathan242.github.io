@@ -1,0 +1,46 @@
+TITLE=FreePBX Custom Tools
+CATEGORY=10:Projects
+DESC=My custom tools for FreePBX
+ORDER=70
+==
+<h1>FreePBX Custom Tools</h1>
+<p>Project repo: <a href='https://github.com/nathan242/freepbx-custom-tools'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>My custom FreePBX management tools. I created these to help me with running a FreePBX based phone system.</p>
+<p>To use the tools, place the files in a subfolder under your FreePBX web server root.</p>
+
+
+<h4>Features</h4>
+<p><strong>TFTP Manager</strong><br>
+This allows you to generate config files for Cisco 7940 IP phones. The code assumes that the TFTP root is at "/tftpboot" and this folder needs to be writeable to the web server in order to function correctly.<br>
+It will display a table showing the configured extension for each MAC address. You can simply reassign a phone to a different extension by selecting a new one from the dropdown in the table or create a new one by specifing the new MAC at the top.</p>
+
+<p><strong>Extension List</strong><br>
+This is a simple extension list viewer with the ability to export into CSV. You can easily customize the format of the CSV in the code.</p>
+
+<p><strong>Extension Config</strong><br>
+This will list the ring groups and queues that each extension is a member of. This is useful if you have a large number of extensions and want to get an overview of who is in what.</p>
+
+<p><strong>Inbound Routes</strong><br>
+This will visually show the routes taken by inbound phone numbers. I created this to make it easier to verify the configuration of a FreePBX server as it is cumbersome to manually follow all the routes through the normal UI.<br>
+This is an example of what it will output:</p>
+<img src='images/freepbx-custom-tools-inbound-routes.png' width='691' height='387'>
+
+<h4>Notes</h4>
+<p>Database settings are set in each file in the database class instantiation. You will need to check that they are set correctly.</p>
+<div class='code'>
+<pre>
+$db = new mdb(&lt;host&gt;, &lt;user&gt;, &lt;password&gt;, &lt;database&gt;);
+</pre>
+</div>
+
+<p>You can change the TFTP root path used by the TFTP manager by setting it in the "cnfManager" class instantiation.</p>
+<div class='code'>
+<pre>
+$cnf = new cnfManager($db, '/tftpboot');
+</pre>
+</div>
+
+<p>Just change the string "/tftpboot" to the correct path.</p>
+
