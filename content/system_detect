@@ -1,0 +1,17 @@
+TITLE=System Detect
+CATEGORY=10:Projects
+DESC=Windows system information utility
+ORDER=80
+==
+<h1>System Detect</h1>
+<p>Project repo: <a href='https://github.com/nathan242/system_detect'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>Hardware information utility for Windows written in Python.</p>
+<p>This requires Python 2 with the <strong>wmi</strong> and <strong>pywin32</strong> modules.</p>
+<img src='images/system_detect-main.png'>
+
+<h4>Details</h4>
+<p>This utility will show hardware specifications such as CPU model, RAM size, HDD model/size and will also show the Windows BIOS license key if one is present.</p>
+<p>Hardware information is retrieved using WMI and the BIOS license key is obtained by calling <strong>GetSystemFirmwareTable()</strong> from kernel32.dll (using ctypes).</p>
+

@@ -47,35 +47,17 @@
       </div>
       <div class='right-section'>
         <br>
-<h1>Simple-HTTPD</h1>
-<p>Project repo: <a href='https://github.com/nathan242/simple-httpd'>LINK</a></p>
+<h1>System Detect</h1>
+<p>Project repo: <a href='https://github.com/nathan242/system_detect'>LINK</a></p>
 
 <h4>Introduction</h4>
-<p>This is a simple HTTP daemon that I wrote for the sake of learning more about C/C++.
+<p>Hardware information utility for Windows written in Python.</p>
+<p>This requires Python 2 with the <strong>wmi</strong> and <strong>pywin32</strong> modules.</p>
+<img src='images/system_detect-main.png'>
 
-<div class="code">
-<pre>
-Simple HTTP Daemon v0.01. [Mar 31 2018 11:09:49]
-Usage: ./nphttpd -p [TCP_PORT] -r [WEB_ROOT] -i [DEFAULT_INDEX] -m [MAGIC_DB] -a -l
- -p [TCP_PORT] - TCP port to listen on. Default = 80.
- -r [WEB_ROOT] - Directory for web root. Default = current working directory.
- -i [DEFAULT_INDEX] - Default index file. Default = "index.html".
- -m [MAGIC_DB] - Path to alternate magic database.
- -a - Use automatic directory index when default index is missing.
- -l - Enable logging to STDOUT.
-</pre>
-</div>
-
-<h4>Features</h4>
-<ul>
-  <li>Uses libmagic to get the content type of files it serves.</li>
-  <li>Forks for each connected client.</li>
-  <li>Can generate an auto-index page if main index page is missing.</li>
-  <li>Currently only supports GET requests.</li>
-</ul>
-
-<p>Functionality is basic and it should only be used for demonstration purposes.<br>
-I will probably add more functionality over time.</p>
+<h4>Details</h4>
+<p>This utility will show hardware specifications such as CPU model, RAM size, HDD model/size and will also show the Windows BIOS license key if one is present.</p>
+<p>Hardware information is retrieved using WMI and the BIOS license key is obtained by calling <strong>GetSystemFirmwareTable()</strong> from kernel32.dll (using ctypes).</p>
 
       </div>
     </div>
