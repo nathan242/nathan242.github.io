@@ -1,6 +1,6 @@
 TITLE=CCTV-Player
 CATEGORY=10:Projects
-DESC=Simple multi-source stream viewer based on VLC.
+DESC=Simple multi-source stream viewer based on VLC
 ORDER=30
 ==
 <h1>CCTV-Player</h1>

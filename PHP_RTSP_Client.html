@@ -52,34 +52,40 @@
       </div>
       <div class='right-section'>
         <br>
-<h1>CCTV-Player</h1>
-<p>Project repo: <a href='https://github.com/nathan242/cctv-player'>LINK</a></p>
+<h1>PHP RTSP Client</h1>
+<p>Project repo: <a href='https://github.com/nathan242/php-rtsp-client'>LINK</a></p>
 
 <h4>Introduction</h4>
-<p>A simple multi-source video stream viewer based on VLC.<br>
-I originally created this as a CCTV camera viewer but it can show streams from any VLC compatible URL.</p>
-<img src='images/cctv-player-main.png'>
+<p>This is a PHP class for interacting with the RTSP protocol. It is still a work in progress.</p>
+<p>I started this whilst experimenting with the possibility of getting an RTSP stream from a device on the server side then transcoding it so it can be played in a webpage. This was for the <a href='IPCAM-CCTV.html'>IPCAM-CCTV</a> project so that live camera streams could be shown in the browser but I never got around to finishing this.</p>
+<p>This class only handles communication with the RTSP control protocol. You can activate streams on devices but you will need seperate software to receive them.</p>
 
-<p>Configuration is read from the config file on startup. There you can define the window title, number of videos per row and each video source.</p>
+<h4>Usage</h4>
+<p>Instantiate the class with the address, port and optional username and password.</p>
 <div class='code'>
 <pre>
-# Window title
-window_title = CCTV Viewer
-
-# How many videos per row
-max_vids_x = 2
-
-source-1 = rtsp://10.0.0.1/stream
-source-2 = rtsp://10.0.0.2/stream
-source-3 = rtsp://10.0.0.3/stream
-source-4 = rtsp://10.0.0.4/stream
-#source-5 = 
-# etc...
+$rtsp = new rtsp_client("10.10.9.110", 554, "admin", "123456");
 </pre>
 </div>
 
-<p>You can also set the configuration at the start of the program although changes will not be saved back to the config file.</p>
-<img src='images/cctv-player-conf.png'>
+<p>You can then use the <strong>request()</strong> method to communicate with the protocol.
+<div class='code'>
+<pre>
+$url = "rtsp://10.10.9.110/media/video1";
+
+$options = $rtsp->request("OPTIONS", $url);
+$desc = $rtsp->request("DESCRIBE", $url);
+$setup = $rtsp->request("SETUP", $url."/video", array('Transport'=>'RTP/AVP;unicast;client_port=52614-52615', 'User-Agent'=>'PHPrtsp_client/0.0.1'));
+$rtsp->request("PLAY", $url, array('Session'=>$setup['Session'], 'User-Agent'=>'PHPrtsp_client/0.0.1', 'Range'=>'npt=0.000-'));
+</pre>
+</div>
+
+<p>The <strong>request()</strong> method will return an array containing the key/values of the rtsp response. The example above shows using the "session" variable returned from the RTSP "SETUP" call for the "PLAY" call.</p>
+
+<h4>TODO</h4>
+<ul>
+  <li>Need to add a way to retrieve the SDP data. This can be fed to a program that can receive the streams.</li>
+</ul>
 
       </div>
     </div>

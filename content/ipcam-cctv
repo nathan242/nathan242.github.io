@@ -28,6 +28,7 @@ This proved to work quite well so I ended up building a web interface for manage
 <ul>
   <li>Recording in MP4 causes VLC to take a long time to stop and killing the process can result in an unplayable file. MP4 is ideal as you can play the video directly in the web interface. I have only tested this with a single version of VLC so far.</li>
   <li>Undefined behaviour when certain settings are blank such as "recording_directory".</li>
+  <li>The "live" button on the main page will load the VLC browser plugin to play the live stream from a camera. However, modern browsers no longer support this plugin.</li>
   <li>There are likely to be a few bugs. I will continue to push updates as I find them.</li>
 </ul>
 
