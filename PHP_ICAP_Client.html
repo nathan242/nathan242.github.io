@@ -54,23 +54,99 @@
       </div>
       <div class='right-section'>
         <br>
-<h1>Photo2A4</h1>
-<p>Project repo: <a href='https://github.com/nathan242/photo2a4'>LINK</a></p>
+<h1>PHP ICAP Client</h1>
+<p>Project repo: <a href='https://github.com/nathan242/php-icap-client'>LINK</a></p>
 
 <h4>Introduction</h4>
-<p>This program will create an A4 sized PNG image file with up to 3 scaled images inserted onto it. The images will be sized to 6"x4" so this can be used to prepare photos for printing. I created this as I did not like the way that the Windows print wizard would scale and crop photos on an A4 sheet.</p>
+<p>PHP client library for the Internet Content Adaptation Protocol (RFC 3507).</p>
+<p>This library allows PHP to interact with ICAP servers (such as virus scanners and content filters). It supports building an ICAP request with a request body containing encapsulated parts of another request (such as HTTP) and can parse the body of an ICAP response according to the &quot;Encapsulated&quot; header into a PHP array.</p>
+<p>I originally wrote this so a PHP microservice responsible for storing uploaded files could run them through a virus scanner and I was unable to find a PHP implementation of an ICAP client.</p>
+<p>The library currently does not support message preview functionality or persistent connections (each request will close the connection at the end) but I may add support for those at a later time.</p>
 
-<h4>Usage</h4>
-<p>From the command line you can specify 1-3 images:</p>
+<h4>Installation</h4>
+<p>The library can be installed via composer:</p>
 <div class='code'>
 <pre>
-photo2A4.py [image1] [image2] [image3]
+composer require nathan242/php-icap-client
 </pre>
 </div>
-<p>It will output a file called "A4.png" in the current directory. You can change the output file name and location by editing the "resultfile" variable within the script. If you are running on Windows, it will automatically open the output file in the image viewer. You can disable this by setting "openresult" to "False" within the script.</p>
 
-<p>On Windows systems you can call this script from the "send to" menu. This allows you to highlight up to 3 images in Windows Explorer then generate a printable A4 by simply right-clicking and sending "to A4".</p>
-<p>To do this, navigate in Windows Explorer to "shell:sendto", then create a shortcut to the photo2A4.py script in this directory. It can also be good to set a fixed location for the output file within the script (e.g. desktop).</p>
+<h4>Usage</h4>
+<p>Instantiate the class with the ICAP server address and port:</p>
+<div class='code'>
+<pre>
+$icap = new IcapClient('127.0.0.1', 13440);
+</pre>
+</div>
+
+<p>Send an OPTIONS request to the "example" service:</p>
+<div class='code'>
+<pre>
+$icap->options('example');
+</pre>
+</div>
+
+<p>Send a REQMOD and RESPMOD request to the "example" service:</p>
+<div class='code'>
+<pre>
+$icap->reqmod(
+    'example',
+    [
+        'req-hdr' => "POST /test HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
+        'req-body' => 'This is another test.'
+    ]
+);
+
+$icap->respmod(
+    'example',
+    [
+        'res-hdr' => "HTTP/1.1 200 OK\r\nServer: Test/0.0.1\r\nContent-Type: text/html\r\n\r\n",
+        'res-body' => 'This is a test.'
+    ]
+);
+</pre>
+</div>
+
+<p>Successful requests will return an array describing the response:</p>
+<div class='code'>
+<pre>
+Array
+(
+    [protocol] => Array
+        (
+            [icap] => ICAP/1.0
+            [code] => 200
+            [message] => OK
+        )
+
+    [headers] => Array
+        (
+            [Date] => Wed, 03 Jul 2019 22:11:33 GMT
+            [ISTag] => X7K07GDZQW702ZVLSG6WWO0EPE2CTOMR
+            [Encapsulated] => res-hdr=0, res-body=64
+            [Server] => ICAP/1.3 Python/2.7.3
+        )
+
+    [body] => Array
+        (
+            [res-hdr] => HTTP/1.1 200 OK
+content-type: text/html
+server: Test/0.0.1
+            [res-body] => This is a test.
+        )
+
+    [rawBody] => HTTP/1.1 200 OK
+content-type: text/html
+server: Test/0.0.1
+
+f
+This is a test.
+0
+
+
+)
+</pre>
+</div>
 
       </div>
     </div>

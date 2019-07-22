@@ -1,0 +1,99 @@
+TITLE=PHP ICAP Client
+CATEGORY=30:Libraries
+DESC=PHP ICAP client library
+ORDER=20
+==
+<h1>PHP ICAP Client</h1>
+<p>Project repo: <a href='https://github.com/nathan242/php-icap-client'>LINK</a></p>
+
+<h4>Introduction</h4>
+<p>PHP client library for the Internet Content Adaptation Protocol (RFC 3507).</p>
+<p>This library allows PHP to interact with ICAP servers (such as virus scanners and content filters). It supports building an ICAP request with a request body containing encapsulated parts of another request (such as HTTP) and can parse the body of an ICAP response according to the &quot;Encapsulated&quot; header into a PHP array.</p>
+<p>I originally wrote this so a PHP microservice responsible for storing uploaded files could run them through a virus scanner and I was unable to find a PHP implementation of an ICAP client.</p>
+<p>The library currently does not support message preview functionality or persistent connections (each request will close the connection at the end) but I may add support for those at a later time.</p>
+
+<h4>Installation</h4>
+<p>The library can be installed via composer:</p>
+<div class='code'>
+<pre>
+composer require nathan242/php-icap-client
+</pre>
+</div>
+
+<h4>Usage</h4>
+<p>Instantiate the class with the ICAP server address and port:</p>
+<div class='code'>
+<pre>
+$icap = new IcapClient('127.0.0.1', 13440);
+</pre>
+</div>
+
+<p>Send an OPTIONS request to the "example" service:</p>
+<div class='code'>
+<pre>
+$icap->options('example');
+</pre>
+</div>
+
+<p>Send a REQMOD and RESPMOD request to the "example" service:</p>
+<div class='code'>
+<pre>
+$icap->reqmod(
+    'example',
+    [
+        'req-hdr' => "POST /test HTTP/1.1\r\nHost: 127.0.0.1\r\n\r\n",
+        'req-body' => 'This is another test.'
+    ]
+);
+
+$icap->respmod(
+    'example',
+    [
+        'res-hdr' => "HTTP/1.1 200 OK\r\nServer: Test/0.0.1\r\nContent-Type: text/html\r\n\r\n",
+        'res-body' => 'This is a test.'
+    ]
+);
+</pre>
+</div>
+
+<p>Successful requests will return an array describing the response:</p>
+<div class='code'>
+<pre>
+Array
+(
+    [protocol] => Array
+        (
+            [icap] => ICAP/1.0
+            [code] => 200
+            [message] => OK
+        )
+
+    [headers] => Array
+        (
+            [Date] => Wed, 03 Jul 2019 22:11:33 GMT
+            [ISTag] => X7K07GDZQW702ZVLSG6WWO0EPE2CTOMR
+            [Encapsulated] => res-hdr=0, res-body=64
+            [Server] => ICAP/1.3 Python/2.7.3
+        )
+
+    [body] => Array
+        (
+            [res-hdr] => HTTP/1.1 200 OK
+content-type: text/html
+server: Test/0.0.1
+            [res-body] => This is a test.
+        )
+
+    [rawBody] => HTTP/1.1 200 OK
+content-type: text/html
+server: Test/0.0.1
+
+f
+This is a test.
+0
+
+
+)
+</pre>
+</div>
+
