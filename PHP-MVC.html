@@ -58,18 +58,50 @@
       </div>
       <div class='right-section'>
         <br>
-<h1>System Detect</h1>
-<p>Project repo: <a href='https://github.com/nathan242/system_detect'>LINK</a></p>
+<h1>PHP-MVC</h1>
+<p>Project repo: <a href='https://github.com/nathan242/php-mvc'>LINK</a></p>
 
 <h4>Introduction</h4>
-<p>Hardware information utility for Windows written in Python.</p>
-<p>This requires Python 2 with the <strong>wmi</strong> and <strong>pywin32</strong> modules.</p>
-<img src='images/system_detect-main.png'>
+<p>This is a PHP MVC framework I have been developing for curiosity/learning/experimental purposes. This has been built from the ground up in an original way and I am trying to find my own ways to implement functionality without just copying the usual patterns. As a result this project is almost totally not PSR compliant :-).</p>
+
+<h4>Features</h4>
+<ul>
+  <li>Simple routing that can pass route values to controllers.</li>
+  <li>DI Container like concept that can resolve type hinted class dependencies and can use configured factory classes to build objects.</li>
+  <li>Request, response and session objects that are injected into all controllers.</li>
+  <li>Simple view system that renders views from html/php files and can pass in variables.</li>
+  <li>Supports CLI commands using command controller classes.</li>
+  <li>Simple model like class to represent database records.</li>
+  <li>Initial concept of SQL abstraction (very basic early stages) with SQL query builder.</li>
+  <li>Database class to support MySQL/MariaDB via PHP MySQLi extension. I hope to add SQLite support soon.</li>
+</ul>
 
 <h4>Details</h4>
-<p>This utility will show hardware specifications such as CPU model, RAM size, HDD model/size and will also show the Windows BIOS license key if one is present.</p>
-<p>Hardware information is retrieved using WMI and the BIOS license key is obtained by calling <strong>GetSystemFirmwareTable()</strong> from kernel32.dll (using ctypes).</p>
+<p>The framwork has the following folders:<p>
+<ul>
+  <li><strong>classes</strong> - All classes used by the framework. The autoloader loads from here.</li>
+  <li><strong>config</strong> - Config files. Here you can configure routes/commands/factories etc.</li>
+  <li><strong>include</strong> - PHP include files. The autoloader is also here.</li>
+  <li><strong>view</strong> - View files. Those are loaded by the view class.</li>
+  <li><strong>www</strong> - Web root. The web server should host from this directory and use index.php as the front controller.</li>
+</ul>
 
+<p>All static site content (images, JS) should be under the <strong>www</strong> directory.</p>
+<p>The <strong>index.php</strong> file acts as the front controller for the framework. The webserver should pass all requests to this file. If you are using the PHP built in web server it is best to use <strong>cli-server-index.php</strong> as this will allow static assets to be accessed. There is a <strong>.htaccess</strong> file for Apache HTTPD in the www folder that will pass all requests to the front controller.<br>
+The <strong>index.php</strong> file also serves as the entrypoint for cli commands. Running it via the php cli with no options will display the command help:</p>
+
+<div class='code'>
+<pre>
+PHP-MVC [v0.0.1]
+
+Available commands:
+create-users-table        - Create users table
+create-test-table         - Create test table
+dump-config               - Dump configuration of specified type
+</pre>
+</div>
+
+<p>Running <strong>create-users-table</strong> will set up a users table with a single "admin" user (password is also "admin").</p>
       </div>
     </div>
   </body>
