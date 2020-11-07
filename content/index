@@ -1,4 +1,6 @@
-TITLE=index
+TITLE=Home
+INDEX
+ORDER=10
 ==
 <p>Welcome to my Github projects site!</p>
 <p>This site is about my Github projects and other things that I decide to write about.<br>

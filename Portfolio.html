@@ -1,0 +1,115 @@
+<!doctype html>
+  <head>
+    <link rel='stylesheet' href='css/style.css'>
+    <title>NATHAN242's Projects</title>
+  </head>
+  <body>
+    <div class='top-section'>
+      <p>NATHAN242's Projects</p>
+    </div>
+    <div class='cols'>
+      <div class='left-section'>
+        <ul>
+          <li><a href='index.html'>Home</a></li>
+          <li><a href='Portfolio.html'>Portfolio</a></li>
+        </ul>
+        <p><strong>Projects</strong></p>
+        <ul>
+          <li><a href='IPCAM-CCTV.html'>IPCAM-CCTV</a></li>
+          <span class='link-subtext'>CCTV recording management system</span>
+          <li><a href='PHP-MVC.html'>PHP-MVC</a></li>
+          <span class='link-subtext'>PHP MVC framework</span>
+          <li><a href='Photo2A4.html'>Photo2A4</a></li>
+          <span class='link-subtext'>Place 3 6x4 images on an A4 image to print</span>
+          <li><a href='CCTV-Player.html'>CCTV-Player</a></li>
+          <span class='link-subtext'>Simple multi-source stream viewer based on VLC</span>
+          <li><a href='Simple-HTTPD.html'>Simple-HTTPD</a></li>
+          <span class='link-subtext'>Basic HTTP server</span>
+          <li><a href='SDL-Pong.html'>SDL-Pong</a></li>
+          <span class='link-subtext'>Simple pong game using SDL</span>
+          <li><a href='SDL-Breakout.html'>SDL-Breakout</a></li>
+          <span class='link-subtext'>Breakout game using SDL</span>
+          <li><a href='Hashbreak.html'>Hashbreak</a></li>
+          <span class='link-subtext'>MD5 and SHA256 hash brute forcer</span>
+          <li><a href='FreePBX_Custom_Tools.html'>FreePBX Custom Tools</a></li>
+          <span class='link-subtext'>My custom tools for FreePBX</span>
+          <li><a href='System_Detect.html'>System Detect</a></li>
+          <span class='link-subtext'>Windows system information utility</span>
+        </ul>
+        <p><strong>Tools</strong></p>
+        <ul>
+          <li><a href='SMTPt.html'>SMTPt</a></li>
+          <span class='link-subtext'>SMTP server testing tool</span>
+          <li><a href='XVA2IMG.html'>XVA2IMG</a></li>
+          <span class='link-subtext'>Extract IMG disk images from XVA files</span>
+          <li><a href='Chrome_History_Monitor.html'>Chrome History Monitor</a></li>
+          <span class='link-subtext'>Chrome browser remote history monitoring</span>
+          <li><a href='Bash_Scripts.html'>Bash Scripts</a></li>
+          <span class='link-subtext'>Collection of bash scripts</span>
+          <li><a href='Powershell_Scripts.html'>Powershell Scripts</a></li>
+          <span class='link-subtext'>Collection of powershell scripts</span>
+        </ul>
+        <p><strong>Libraries</strong></p>
+        <ul>
+          <li><a href='PHP_RTSP_Client.html'>PHP RTSP Client</a></li>
+          <span class='link-subtext'>PHP class for RTSP protocol</span>
+          <li><a href='PHP_ICAP_Client.html'>PHP ICAP Client</a></li>
+          <span class='link-subtext'>PHP ICAP client library</span>
+        </ul>
+      </div>
+      <div class='right-section'>
+        <br>
+<p>Details of a few development projects I have worked on:</p>
+
+<h4>MTS</h4>
+<p>MTS is a stock tracking system written in PHP that I soley built while working at an IT recycling/reuse company.</p>
+<p>It is used to track the status of IT equipment as it moves through the warehouse and to record the specifications of equipment as it is referbished. Specifications of desktops and laptops could be quickly retrieved by network booting a hardware detection tool that would push a file to a server. This could then be used to automtically populate the item form in the web interface in a single click. Once an item had been processed it would automatically trigger a label printer to print the specifications that would then be attached to the item.</p>
+
+<h4>Trade In Manager</h4>
+<p>Worked on several features as well as general fixes on a mobile phone trade in platform written in PHP and also several associated trade in websites integrated with it.</p>
+<ul>
+  <li>Implemented an employee clock-in/timekeeping system within trade in manager for internal staff use. It has an inteface for HR to generate various employee timekeeping reports.</li>
+  <li>Implemented integration with black belt mobile device testing/erasure software. Allow pulling device specifications and data wipe reports from an API and associating the data with the relevant items in the system.</li>
+  <li>Integrating trade in portal sites with the trade in manager backend using an API</li>
+</ul>
+
+<h4>CNC-BOX System</h4>
+<p>This is a small PHP web application I wrote to quickly track the contents of boxes of phones as they moved through a particular departement.</p>
+<ul>
+  <li>Allows item to be quickly added and removed from boxes by scanning a barcode.</li>
+  <li>Can generate a PDF label for a box based on its number and description.</li>
+  <li>Can generate a report showing how many of each type of phone are currently boxes.</li>
+</ul>
+<img src='images/cnc_box_main.png' style='width: 300px;'>
+
+<h4>PI-PH System</h4>
+<p>A Raspberry Pi application written in Python I soley built to monitor/operate a waste chemical tank and to log the PH level.</p>
+<ul>
+  <li>Monitors the tank level (screen colour indicates empty/low/medium/high for visibility at a distance) and PH level.</li>
+  <li>Provides functions to log the PH and empty the tank. Uses the RPi GPIO pins to operate a mixer in the tank and a pump to extract the contents to another tank after the PH has been logged.</li>
+  <li>Uses RPi touchscreen for control. Interface built using Python Tkinter.</li>
+</ul>
+<img src='images/rpi_chemical_ctrl.jpg' style='width: 300px;'>
+
+<h4>Arduino projects</h4>
+<p>I have worked on several projects using an Arduino Uno to control custom built machines. Most of those machines are used to perform work on mobile phone cases. The Arduino Uno is a microcontroller programmed using C++ and is being used to operate motors, valves and controls within the machines. The device only has 1KB of data RAM so memory has to be managed carefully.</p>
+<p>A few machines I have developed code for:</p>
+<ul>
+  <li>Machine that blasts a phone case with water while spinning it at hight speed. Door open/close mechanism is also controlled to prevent opening while in operation.</li>
+  <li>Machine that blasts sand on a phone case while spinning it at high speed and moving side to side on an arm. The Arduino has to signal more than one stepper motor at once (see my code for controlling stepper motors <a href='https://github.com/nathan242/arduino_stepper_control'>HERE</a>)</li>
+  <li>Laser alignment machine that moves a bracket to align a phone case with an laser. User can select phone model on an LCD screen. I have developed a C++ class to provide a menu system on the LCD.</li>
+</ul>
+<img src='images/arduino_motor_ctrl.jpg' style='height: 300px;'><img src='images/arduino_motor_lcd.jpg' style='width: 300px;'>
+
+<h4>Loan management systems</h4>
+<p>Worked with a team of developers to maintain several loan management systems (loan origination and broker systems) written in PHP. Also involved in a project to build a new loan origination system for bridging finance from scratch.</p>
+<ul>
+  <li>Have developed several microservices using the Lumen framework.</li>
+  <li>Developing web applications using Zend 3.</li>
+  <li>Some development work done with Java on a PDF generating microservice.</li>
+</ul>
+
+      </div>
+    </div>
+  </body>
+</html>

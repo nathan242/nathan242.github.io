@@ -10,6 +10,7 @@ directory = "."
 menu_data = {}
 menu_content = ""
 page_content = {}
+index_page_title = ""
 
 
 if len(sys.argv) > 2:
@@ -39,9 +40,10 @@ if not len(os.listdir(output)) == 0:
 # Read all content files
 for c in os.listdir(content):
     title = ""
-    category = ""
+    category = "0:root"
     desc = ""
     order = 0
+    index = False
     in_content = False
 
     with open(content+c, "r") as cf:
@@ -56,6 +58,8 @@ for c in os.listdir(content):
                     desc = line.replace("DESC=", "").strip()
                 elif line.startswith("ORDER="):
                     order = int(line.replace("ORDER=", "").strip())
+                elif line.startswith("INDEX"):
+                    index = True
                 elif line.startswith("=="):
                     in_content = True
             else:
@@ -67,7 +71,10 @@ for c in os.listdir(content):
     if order != 0:
         while order in menu_data[category].keys():
             order += 1
-            
+
+        if index is True:
+            index_page_title = title
+
         menu_data[category][order] = {"TITLE" : title, "DESC" : desc}
     
 #print menu_data
@@ -76,11 +83,19 @@ for c in os.listdir(content):
 # Build side menu
 print "Building side menu."
 for m in sorted(menu_data.keys()):
-    menu_content += "        <p><strong>"+m.split(":")[1]+"</strong></p>\n"
+    category_name = m.split(":")[1]
+
+    if category_name != "root":
+        menu_content += "        <p><strong>"+m.split(":")[1]+"</strong></p>\n"
+
     menu_content += "        <ul>\n"
     for i in sorted(menu_data[m].keys()):
         if menu_data[m][i]["TITLE"] != "":
-            menu_content += "          <li><a href='"+menu_data[m][i]["TITLE"].replace(" ", "_")+".html'>"+menu_data[m][i]["TITLE"]+"</a></li>\n"
+            if index_page_title == menu_data[m][i]["TITLE"]:
+                filename = "index"
+            else:
+                filename = menu_data[m][i]["TITLE"].replace(" ", "_")
+            menu_content += "          <li><a href='"+filename+".html'>"+menu_data[m][i]["TITLE"]+"</a></li>\n"
         if menu_data[m][i]["DESC"] != "":
             menu_content += "          <span class='link-subtext'>"+menu_data[m][i]["DESC"]+"</span>\n"
     menu_content += "        </ul>\n"
@@ -90,7 +105,10 @@ for m in sorted(menu_data.keys()):
 # Generate pages
 print "Generating pages."
 for p in page_content.keys():
-    filename = output+p.replace(" ", "_")+".html"
+    if index_page_title == p:
+        filename = "index.html"
+    else:
+        filename = output+p.replace(" ", "_")+".html"
     print "Creating "+filename
     with open(filename, "w") as outfile:
         outfile.write("<!doctype html>\n")
@@ -104,9 +122,6 @@ for p in page_content.keys():
         outfile.write("    </div>\n")
         outfile.write("    <div class='cols'>\n")
         outfile.write("      <div class='left-section'>\n")
-        outfile.write("        <ul>\n")
-        outfile.write("          <li><a href='index.html'>Home</a></li>\n")
-        outfile.write("        </ul>\n")
 
         outfile.write(menu_content)
 
