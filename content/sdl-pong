@@ -5,6 +5,7 @@ ORDER=50
 ==
 <h1>SDL-Pong</h1>
 <p>Project repo: <a href='https://github.com/nathan242/sdl-pong'>LINK</a></p>
+<p>Compiled to WebAssembly: <a href='apps/pong/pong.html'>PLAY IN BROWSER</a></p>
 
 <h4>Introduction</h4>
 <p>This is a simple Pong clone I created while learning about C/C++ and SDL. It has a basic physics system and simple AI for the opponent.</p>
