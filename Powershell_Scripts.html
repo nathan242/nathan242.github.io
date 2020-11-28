@@ -85,7 +85,7 @@ $smtp_server = "10.0.90.30" # SMTP server address
 <h4><a href='https://github.com/nathan242/sysadmin-tools/blob/master/map-drives.ps1'>map-drives.ps1</a></h4>
 <p>This script will map certain network drives depending on what groups the current user is a member of. This is an alternative to using group policy to map drives directly. You can set this script as a login script within group policy.</p>
 <p>There are 2 arrays within the script that need to be configured:</p>
-<p><strong>$netdrvs</strong> - This array contains a list of network drives, prefered drive letter, UNC path, and alternate paths for the share.<br>
+<p><strong>$netdrvs</strong> - This array contains a list of network drives, preferred drive letter, UNC path, and alternate paths for the share.<br>
 The alternate paths array prevents the drive from being mapped if it is already mapped via a different possible path (e.g IP address).</p>
 <div class='code'>
 <pre>

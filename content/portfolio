@@ -4,19 +4,19 @@ ORDER=20
 <p>Details of a few development projects I have worked on:</p>
 
 <h4>MTS</h4>
-<p>MTS is a stock tracking system written in PHP that I soley built while working at an IT recycling/reuse company.</p>
-<p>It is used to track the status of IT equipment as it moves through the warehouse and to record the specifications of equipment as it is referbished. Specifications of desktops and laptops could be quickly retrieved by network booting a hardware detection tool that would push a file to a server. This could then be used to automatically populate the item form in the web interface in a single click. Once an item had been processed it would automatically trigger a label printer to print the specifications that would then be attached to the item.</p>
+<p>MTS is a stock tracking system written in PHP that I solely built while working at an IT recycling/reuse company.</p>
+<p>It is used to track the status of IT equipment as it moves through the warehouse and to record the specifications of equipment as it is refurbished. Specifications of desktops and laptops could be quickly retrieved by network booting a hardware detection tool that would push a file to a server. This could then be used to automatically populate the item form in the web interface in a single click. Once an item had been processed it would automatically trigger a label printer to print the specifications that would then be attached to the item.</p>
 
 <h4>Trade In Manager</h4>
 <p>Worked on several features as well as general fixes on a mobile phone trade in platform written in PHP and also several associated trade in websites integrated with it.</p>
 <ul>
-  <li>Implemented an employee clock-in/timekeeping system within trade in manager for internal staff use. It has an inteface for HR to generate various employee timekeeping reports.</li>
+  <li>Implemented an employee clock-in/timekeeping system within trade in manager for internal staff use. It has an interface for HR to generate various employee timekeeping reports.</li>
   <li>Implemented integration with black belt mobile device testing/erasure software. Allow pulling device specifications and data wipe reports from an API and associating the data with the relevant items in the system.</li>
   <li>Integrating trade in portal sites with the trade in manager backend using an API</li>
 </ul>
 
 <h4>CNC-BOX System</h4>
-<p>This is a small PHP web application I wrote to quickly track the contents of boxes of phones as they moved through a particular departement.</p>
+<p>This is a small PHP web application I wrote to quickly track the contents of boxes of phones as they moved through a particular department.</p>
 <ul>
   <li>Allows item to be quickly added and removed from boxes by scanning a barcode.</li>
   <li>Can generate a PDF label for a box based on its number and description.</li>
@@ -25,7 +25,7 @@ ORDER=20
 <img src='images/cnc_box_main.png' style='width: 300px;'>
 
 <h4>PI-PH System</h4>
-<p>A Raspberry Pi application written in Python I soley built to monitor/operate a waste chemical tank and to log the PH level.</p>
+<p>A Raspberry Pi application written in Python I solely built to monitor/operate a waste chemical tank and to log the PH level.</p>
 <ul>
   <li>Monitors the tank level (screen colour indicates empty/low/medium/high for visibility at a distance) and PH level.</li>
   <li>Provides functions to log the PH and empty the tank. Uses the RPi GPIO pins to operate a mixer in the tank and a pump to extract the contents to another tank after the PH has been logged.</li>
