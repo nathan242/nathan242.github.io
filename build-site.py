@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 # Build the site
 
@@ -10,6 +10,7 @@ directory = "."
 menu_data = {}
 menu_content = ""
 page_content = {}
+page_settings = {}
 index_page_title = ""
 
 
@@ -44,6 +45,7 @@ for c in os.listdir(content):
     desc = ""
     order = 0
     index = False
+    hide_menu = False
     in_content = False
 
     with open(content+c, "r") as cf:
@@ -52,6 +54,7 @@ for c in os.listdir(content):
                 if line.startswith("TITLE="):
                     title = line.replace("TITLE=", "").strip()
                     page_content[title] = ""
+                    page_settings[title] = []
                 elif line.startswith("CATEGORY="):
                     category = line.replace("CATEGORY=", "").strip()
                 elif line.startswith("DESC="):
@@ -60,10 +63,15 @@ for c in os.listdir(content):
                     order = int(line.replace("ORDER=", "").strip())
                 elif line.startswith("INDEX"):
                     index = True
+                elif line.startswith("NOMENU"):
+                    hide_menu = True
                 elif line.startswith("=="):
                     in_content = True
             else:
                 page_content[title] += line
+
+    if hide_menu is True:
+        page_settings[title].append("nomenu")
 
     if category != "" and category not in menu_data.keys():
         menu_data[category] = {}
@@ -77,11 +85,11 @@ for c in os.listdir(content):
 
         menu_data[category][order] = {"TITLE" : title, "DESC" : desc}
     
-#print menu_data
-#print page_content
+#print(menu_data)
+#print(page_content)
 
 # Build side menu
-print "Building side menu."
+print("Building side menu.")
 for m in sorted(menu_data.keys()):
     category_name = m.split(":")[1]
 
@@ -100,16 +108,16 @@ for m in sorted(menu_data.keys()):
             menu_content += "          <span class='link-subtext'>"+menu_data[m][i]["DESC"]+"</span>\n"
     menu_content += "        </ul>\n"
 
-#print menu_content
+#print(menu_content)
 
 # Generate pages
-print "Generating pages."
+print("Generating pages.")
 for p in page_content.keys():
     if index_page_title == p:
         filename = "index.html"
     else:
         filename = output+p.replace(" ", "_")+".html"
-    print "Creating "+filename
+    print("Creating "+filename)
     with open(filename, "w") as outfile:
         outfile.write("<!doctype html>\n")
         outfile.write("  <head>\n")
@@ -120,20 +128,25 @@ for p in page_content.keys():
         outfile.write("    <div class='top-section'>\n")
         outfile.write("      <p>NATHAN242's Projects</p>\n")
         outfile.write("    </div>\n")
-        outfile.write("    <div class='cols'>\n")
-        outfile.write("      <div class='left-section'>\n")
 
-        outfile.write(menu_content)
+        if "nomenu" in page_settings[p]:
+            outfile.write(page_content[p])
+        else:
+            outfile.write("    <div class='cols'>\n")
+            outfile.write("      <div class='left-section'>\n")
 
-        outfile.write("      </div>\n")
+            outfile.write(menu_content)
 
-        outfile.write("      <div class='right-section'>\n")
-        outfile.write("        <br>\n")
+            outfile.write("      </div>\n")
 
-        outfile.write(page_content[p])
+            outfile.write("      <div class='right-section'>\n")
+            outfile.write("        <br>\n")
+
+            outfile.write(page_content[p])
         
-        outfile.write("      </div>\n")
-        outfile.write("    </div>\n")
+            outfile.write("      </div>\n")
+            outfile.write("    </div>\n")
+
         outfile.write("  </body>\n")
         outfile.write("</html>")
         
