@@ -1,0 +1,124 @@
+<!doctype html>
+  <head>
+    <link rel='stylesheet' href='css/style.css'>
+    <title>NATHAN242's Projects</title>
+  </head>
+  <body>
+    <div class='top-section'>
+      <p>NATHAN242's Projects</p>
+    </div>
+<p><a href='index.html'>Home</a></p>
+<h1>Grapheme Colour Synaesthesia Text Colouring Tool</h1>
+
+<p>Grapheme colour is a type of synaesthesia where people associate colours with letters, numbers and sometimes other sequences such as days of the week.</p>
+<p>There are 2 types: associators which see the colours in their mind (I am an associator) and the rarer projectors who actually see the colours in their visual perception. A more accurate term for associative synaesthesia may be ideasthesia.</p>
+<p>This tool allows you to colourize text to represent it the way a grapheme colour synaesthete would see it. It could be useful to aid in visualization and memory.</p>
+
+<hr>
+
+<input type='file' id='file-input' style='display: none;'>
+<p><button id='load-map'>Load Colour Map</button> <button id='save-map'>Save Colour Map</button></p>
+<p id='colours'></p>
+<p>Background: <input type='color' id='background-colour' value='#000000'> <input type='checkbox' id='blocks'><label for='blocks'>Blocks</label></p>
+<p><textarea id='input' rows=10 style='width: 100%;'></textarea></p>
+<hr>
+<p><pre id='output' style='white-space: pre-wrap;'></pre></p>
+
+<script>
+    const chars = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+
+    const colours = document.getElementById('colours');
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+    const fileInput = document.getElementById('file-input');
+    const loadMap = document.getElementById('load-map');
+    const saveMap = document.getElementById('save-map');
+    const backgroundColour = document.getElementById('background-colour');
+    const blocks = document.getElementById('blocks');
+
+    output.style.backgroundColor.value = backgroundColour.value;
+
+    let map = {};
+
+    function updateOutput () {
+        let out = '';
+        for (let i = 0; i < input.value.length; i++) {
+            let char = input.value[i];
+
+            let charLookup = input.value[i].toUpperCase();
+            let props = '';
+
+            if (map.hasOwnProperty(charLookup)) {
+                let style = 'color: '+map[charLookup]+';';
+
+                if (blocks.checked) {
+                    style += ' background-color: '+map[charLookup]+';';
+                }
+
+                props = "style='"+style+"'";
+            }
+
+             out += '<span '+props+'>'+char+'</span>';
+        }
+
+        output.innerHTML = out;
+    }
+
+    chars.forEach(function (c) {
+        colours.innerHTML += c+": "+"<input type='color' id='colour-"+c+"' value='#FFFFFF'>";
+
+        map[c] = '#FFFFFF';
+    });
+
+    chars.forEach(function (c) {
+        const elem = document.getElementById('colour-'+c);
+
+        elem.addEventListener('change', function (e) {
+            map[c] = elem.value;
+            updateOutput();
+        });
+    });
+
+    input.addEventListener('input', updateOutput);
+    saveMap.addEventListener('click', function (e) {
+        let a = document.createElement('a');
+        a.setAttribute('href', 'data:application/json,' + encodeURIComponent(JSON.stringify(map)));
+        a.setAttribute('download', 'colour_map.json');
+        a.click();
+    });
+
+    loadMap.addEventListener('click', function (e) {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function (e) {
+        const reader = new FileReader();
+        reader.addEventListener('load', function (e) {
+            map = JSON.parse(reader.result);
+            fileInput.value = null;
+
+            chars.forEach(function (c) {
+                const elem = document.getElementById('colour-'+c);
+
+                if (map.hasOwnProperty(c)) {
+                    elem.value = map[c];
+                }
+            });
+
+            updateOutput();
+        });
+
+        reader.readAsText(this.files[0]);
+    });
+
+    backgroundColour.addEventListener('change', function (e) {
+        output.style.backgroundColor = backgroundColour.value;
+    });
+
+    blocks.addEventListener('change', function (e) {
+        updateOutput();
+    });
+</script>
+
+  </body>
+</html>
