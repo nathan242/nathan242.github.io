@@ -1,0 +1,28 @@
+TITLE=SDL-Snake
+CATEGORY=10:Projects
+DESC=Snake game using SDL
+ORDER=52
+==
+<h1>SDL-Snake</h1>
+<p>Project repo: <a href='https://github.com/nathan242/sdl-snake'>LINK</a></p>
+<p>Compiled to WebAssembly: <a href='apps/snake/snake.html'>PLAY IN BROWSER</a></p>
+
+<h4>Introduction</h4>
+<p>Snake game in C++ using SDL.</p>
+<img src='images/snake.png'>
+
+<h4>Details</h4>
+<p>Use the arrow keys to move the snake. Collect the food (red) and the snake will grow. Crashing the snake into the edges of the screen or itself will cause a game over. Press Q to quit and your score will be printed to the console.</p>
+<p>Launch the game with the -h parameter to show the command line options to configure the game:</p>
+<div class='code'>
+<pre>
+SDL Snake v1.0.1
+Usage: ./snake [-h] [-x X RESOLUTION] [-y Y RESOLUTION] [-s INITIAL SNAKE SIZE] [-d SNAKE DELAY]
+ -h - Show this help
+ -x X RESOLUTION - Set X resolution (default: 200)
+ -y Y RESOLUTION - Set Y resolution (default: 200)
+ -s INITIAL SNAKE SIZE - Set initial snake size (default: 3)
+ -d SNAKE DELAY - Delay before snake moves (default: 80)
+</pre>
+</div>
+
