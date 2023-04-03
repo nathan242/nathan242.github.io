@@ -7,11 +7,11 @@ ORDER=15
 <p>Project repo: <a href='https://github.com/nathan242/php-mvc'>LINK</a></p>
 
 <h4>Introduction</h4>
-<p>This is a PHP MVC framework I have been developing for curiosity/learning/experimental purposes. This has been built from the ground up in an original way and I am trying to find my own ways to implement functionality without just copying the usual patterns. As a result this project is almost totally not PSR compliant :-).</p>
+<p>This is a PHP MVC framework I have been developing for curiosity/learning/experimental purposes. This has been built from the ground up in an original way and I am trying to find my own ways to implement functionality without just copying the usual patterns.</p>
 
 <h4>Features</h4>
 <ul>
-  <li>Simple routing that can pass route values to controllers.</li>
+  <li>Simple routing that can pass route values to controller methods.</li>
   <li>DI Container like concept that can resolve type hinted class dependencies and can use configured factory classes to build objects.</li>
   <li>Request, response and session objects that are injected into all controllers.</li>
   <li>Simple view system that renders views from html/php files and can pass in variables.</li>
@@ -22,19 +22,19 @@ ORDER=15
 </ul>
 
 <h4>Details</h4>
-<p>The framework is contained in the <strong>framework</strong> folder and one or more web applications can be set up at this level. A sample application is present in the <strong>application</strong> folder. The framework and applications use the following folder structure:<p>
+<p>The framework is contained in the <strong>Framework</strong> folder and one or more web applications can also be set up at this level. A sample application is present in the <strong>Application</strong> folder. The framework and applications use the following folder structure:<p>
 <ul>
   <li><strong>classes</strong> - All classes used by the application. The autoloader loads from here. Subfolders can be created for controllers, commands etc...</li>
   <li><strong>config</strong> - Config files. Here you can configure routes/commands/factories etc.</li>
-  <li><strong>include</strong> - PHP include files. The autoloader is here in the <strong>framework</strong> directory.</li>
+  <li><strong>include</strong> - PHP include files. The autoloader is here in the <strong>Framework</strong> directory.</li>
   <li><strong>view</strong> - View files. Those are loaded by the view class.</li>
   <li><strong>www</strong> - Web root. The web server should host from this directory and use index.php as the front controller.</li>
 </ul>
 
-<p>The <strong>framework</strong> directory has a <strong>template</strong> directory that can be copied as a starting point for a new application.</p>
+<p>The <strong>Framework</strong> directory contains a <strong>template</strong> directory that can be copied as a starting point for a new application.</p>
 
 <p>All static site content (images, JS) should be under the <strong>www</strong> directory.</p>
-<p>The <strong>index.php</strong> file acts as the front controller for the framework. The webserver should pass all requests to this file. If you are using the PHP built in web server it is best to use <strong>cli-server-index.php</strong> as this will allow static assets to be accessed. There is a <strong>.htaccess</strong> file for Apache HTTPD in the www folder that will pass all requests to the front controller.<br>
+<p>The <strong>index.php</strong> file acts as the front controller for the framework. The webserver should pass all requests to this file. If you are using the PHP built in web server it is best to use <strong>cli-server-index.php</strong> as this will allow static assets to be accessed. There is a <strong>.htaccess</strong> file for Apache HTTPD in the <strong>www</strong> folder that will pass all requests to the front controller.<br>
 The <strong>index.php</strong> file also serves as the entrypoint for cli commands. Running it via the php cli with no options will display the command help:</p>
 
 <div class='code'>
@@ -52,5 +52,7 @@ no_controller             - Test missing controller
 </pre>
 </div>
 
-<p>The framework itself has a standalone CLI entrypoint at <strong>framework/cli.php</strong>. Currently this only provides a simple PHP REPL option but could be used to add framework specific helper commands (create new application etc...) in the future.</p>
+<p>There is an included autoloader at <strong>Framework/include/autoloader.php</strong> but the composer autoloader can also be used.</p>
+
+<p>The framework itself has a standalone CLI entrypoint at <strong>Framework/cli.php</strong>. Currently this only provides a simple PHP REPL option but could be used to add framework specific helper commands (create new application etc...) in the future.</p>
 
