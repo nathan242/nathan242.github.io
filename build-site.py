@@ -114,7 +114,7 @@ for m in sorted(menu_data.keys()):
 print("Generating pages.")
 for p in page_content.keys():
     if index_page_title == p:
-        filename = "index.html"
+        filename = output+"index.html"
     else:
         filename = output+p.replace(" ", "_")+".html"
     print("Creating "+filename)
