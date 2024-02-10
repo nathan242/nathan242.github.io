@@ -86,25 +86,17 @@
             let currGreen = parseInt('0x'+colour.value.substring(3, 5));
             let currBlue = parseInt('0x'+colour.value.substring(5, 7));
 
-            if (currBlue === 0) {
-                if (currGreen === 255) {
-                    currGreen--;
-                    currBlue++;
-                } else {
-                    if (currGreen > 0) {
-                        currRed--;
-                        currGreen++;
-                    } else if (currRed === 255) {
-                        currRed--;
-                        currGreen++;
-                    } else {
-                        currRed++;
-                    }
-                }
-            } else if (currGreen > 0) {
+            if (currRed === 255 && currGreen < 255 && currBlue === 0) {
+                currGreen++;
+            } else if (currRed > 0 && currGreen === 255) {
+                currRed--;
+            } else if (currRed === 0 && currGreen === 255 && currBlue < 255) {
                 currBlue++;
+            } else if (currGreen > 0 && currBlue === 255) {
                 currGreen--;
-            } else {
+            } else if (currRed < 255 && currGreen === 0 && currBlue === 255) {
+                currRed++;
+            } else if (currRed === 255 && currGreen === 0 && currBlue > 0 ) {
                 currBlue--;
             }
 
@@ -290,7 +282,7 @@
     rainbow.addEventListener('change', function (e) {
         if (e.target.checked === true) {
             colour.disabled = true;
-            colour.value = '#000000';
+            colour.value = '#ff0000';
         } else {
             colour.disabled = false;
         }
