@@ -137,16 +137,27 @@
             let diffY = Math.abs(y-currY);
             let addX = currX > x ? -1 : 1;
             let addY = currY > y ? -1 : 1;
-            let p = 2*diffY-diffX;
+
+            let xFirst = diffX >= diffY;
+            let diffA = xFirst ? diffX : diffY;
+            let diffB = xFirst ? diffY : diffX;
+
+            let p = 2*diffB-diffA;
 
             while (currX !== x || currY !== y) {
                 if (p < 0) {
-                    if (currX !== x) currX += addX;
-                    p = p+2*diffY;
+                    if (xFirst) {
+                        if (currX !== x) currX += addX;
+                    } else {
+                        if (currY !== y) currY += addY;
+                    }
+
+                    p = p+2*diffB;
                 } else {
                     if (currX !== x) currX += addX;
                     if (currY !== y) currY += addY;
-                    p = p+2*diffY-2*diffX;
+
+                    p = p+2*diffB-2*diffA;
                 }
 
                 drawMode(currX, currY, getColour());
