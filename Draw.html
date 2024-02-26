@@ -23,19 +23,28 @@
     <label for='rainbow'>Rainbow</label>
 </p>
 <p>
-    MODE:
+    SYMMETRY:
     <input type='radio' id='mode-eight' name='mode' value='8'>
     <label for='mode-eight'>8</label>
     <input type='radio' id='mode-four' name='mode' value='4'>
     <label for='mode-four'>4</label>
     <input type='radio' id='mode-one' name='mode' value='1'>
-    <label for='mode-one'>1</label>
+    <label for='mode-one'>None</label>
 </p>
 <p>
     BRUSH SIZE:
     <input type='number' id='brush_res' value='1' min='1' max='100'>
 </p>
-<p><button id='clear' type='button'>CLEAR</button> <button id='save' type='button'>SAVE</button></p>
+<p>
+    UNDO BUFFERS:
+    <input type='number' id='undo_buffers' value='10' min='1'>
+</p>
+<p>
+    <button id='clear' type='button'>CLEAR</button>
+    <button id='save' type='button'>SAVE</button>
+    <button id='undo' type='button'>UNDO</button>
+    <button id='redo' type='button'>REDO</button>
+</p>
 <p>
     CANVAS SIZE:
     <input type='number' id='canvas_res' value='800' min='10' max='4096'>
@@ -51,10 +60,16 @@
     const mode = document.getElementsByName('mode');
     const clearBtn = document.getElementById('clear');
     const saveBtn = document.getElementById('save');
+    const undoBtn = document.getElementById('undo');
+    const redoBtn = document.getElementById('redo');
     const canvasRes = document.getElementById('canvas_res');
     const setBtn = document.getElementById('set_res');
     const brushRes = document.getElementById('brush_res');
+    const undoBuffers = document.getElementById('undo_buffers');
     const message = document.getElementById('message');
+
+    const undoBuf = [];
+    const redoBuf = [];
 
     let centerX = canvas.width / 2;
     let centerY = canvas.height / 2;
@@ -65,6 +80,7 @@
     let lastDrawY = null;
 
     function clear() {
+        pushUndo();
         ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
 
@@ -210,6 +226,39 @@
         drawPoint(ym, x, colour);
     }
 
+    function pushUndo() {
+        let count = undoBuf.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+
+        while (undoBuf.length > undoBuffers.value) {
+            undoBuf.shift();
+        }
+
+        redoBuf.length = 0;
+    }
+
+    function popUndo() {
+        if (undoBuf.length === 0) {
+            return;
+        }
+
+        redoBuf.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        ctx.putImageData(undoBuf.pop(), 0, 0);
+    }
+
+    function popRedo() {
+        if (redoBuf.length === 0) {
+            return;
+        }
+
+        undoBuf.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        ctx.putImageData(redoBuf.pop(), 0, 0);
+    }
+
+    function clearUndoRedo() {
+        undoBuf.length = 0;
+        redoBuf.length = 0;
+    }
+
     clearBtn.addEventListener('click', function (e) {
         clear();
     });
@@ -238,7 +287,17 @@
         document.body.removeChild(a);
     });
 
+    undoBtn.addEventListener('click', function (e) {
+        popUndo();
+    });
+
+    redoBtn.addEventListener('click', function (e) {
+        popRedo();
+    });
+
     setBtn.addEventListener('click', function (e) {
+        clearUndoRedo();
+
         canvas.width = canvasRes.value;
         canvas.height = canvasRes.value;
 
@@ -254,6 +313,7 @@
 
     canvas.addEventListener('mousedown', function(e) {
         draw = true;
+        pushUndo();
         doDraw(e, 'm');
     });
 
@@ -271,6 +331,7 @@
 
     canvas.addEventListener('touchstart', function(e) {
         draw = true;
+        pushUndo();
         doDraw(e, 't');
     });
 
