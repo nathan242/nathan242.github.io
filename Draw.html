@@ -19,8 +19,12 @@
 <canvas id='canvas' width=800 height=800></canvas>
 <p>
     <input type='color' id='colour' name='colour' value='#000000'>
-    <input type='checkbox' id='rainbow'>
-    <label for='rainbow'>Rainbow</label>
+    <select id='colour_mode' name='colour_mode'>
+        <option value='single'>Single Colour</option>
+        <option value='rainbow'>Rainbow</option>
+        <option value='redorange'>Red-Orange</option>
+        <option value='bluecyan'>Blue-Cyan</option>
+    </select>
 </p>
 <p>
     SYMMETRY:
@@ -56,7 +60,7 @@
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
     const colour = document.getElementById('colour');
-    const rainbow = document.getElementById('rainbow');
+    const colourMode = document.getElementById('colour_mode');
     const mode = document.getElementsByName('mode');
     const clearBtn = document.getElementById('clear');
     const saveBtn = document.getElementById('save');
@@ -98,23 +102,54 @@
     }
 
     function getColour() {
-        if (rainbow.checked) {
+        if (colourMode.value !== 'single') {
             let currRed = parseInt('0x'+colour.value.substring(1, 3));
             let currGreen = parseInt('0x'+colour.value.substring(3, 5));
             let currBlue = parseInt('0x'+colour.value.substring(5, 7));
 
-            if (currRed === 255 && currGreen < 255 && currBlue === 0) {
-                currGreen++;
-            } else if (currRed > 0 && currGreen === 255) {
-                currRed--;
-            } else if (currRed === 0 && currGreen === 255 && currBlue < 255) {
-                currBlue++;
-            } else if (currGreen > 0 && currBlue === 255) {
-                currGreen--;
-            } else if (currRed < 255 && currGreen === 0 && currBlue === 255) {
-                currRed++;
-            } else if (currRed === 255 && currGreen === 0 && currBlue > 0 ) {
-                currBlue--;
+            switch (colourMode.value) {
+                case 'rainbow':
+                    if (currRed === 255 && currGreen < 255 && currBlue === 0) {
+                        currGreen++;
+                    } else if (currRed > 0 && currGreen === 255) {
+                        currRed--;
+                    } else if (currRed === 0 && currGreen === 255 && currBlue < 255) {
+                        currBlue++;
+                    } else if (currGreen > 0 && currBlue === 255) {
+                        currGreen--;
+                    } else if (currRed < 255 && currGreen === 0 && currBlue === 255) {
+                        currRed++;
+                    } else if (currRed === 255 && currGreen === 0 && currBlue > 0 ) {
+                        currBlue--;
+                    }
+                    break;
+
+                case 'redorange':
+                    if (currRed === 255 && currGreen < 255) {
+                        currGreen++;
+                    } else if (currRed === 255 && currGreen === 255) {
+                        currRed--;
+                        currGreen--;
+                    } else if (currRed === 254 && currGreen > 0) {
+                        currGreen--;
+                    } else if (currRed === 254 && currGreen === 0) {
+                        currRed++;
+                        currGreen++;
+                    }
+                    break;
+
+                case 'bluecyan':
+                    if (currBlue === 255 && currGreen < 255) {
+                        currGreen++;
+                    } else if (currBlue === 255 && currGreen === 255) {
+                        currBlue--;
+                        currGreen--;
+                    } else if (currBlue === 254 && currGreen > 0) {
+                        currGreen--;
+                    } else if (currBlue === 254 && currGreen === 0) {
+                        currBlue++;
+                        currGreen++;
+                    }
             }
 
             colour.value = '#'+currRed.toString(16).padStart(2, '0')+currGreen.toString(16).padStart(2, '0')+currBlue.toString(16).padStart(2, '0');
@@ -123,6 +158,31 @@
         message.innerHTML = colour.value;
 
         return colour.value;
+    }
+
+    function setColourMode(mode, keep_colour = false) {
+        let setColour = null;
+
+        switch (mode) {
+            case 'single':
+                colour.disabled = false;
+                break;
+
+            case 'rainbow':
+            case 'redorange':
+                setColour = '#ff0000';
+                colour.disabled = true;
+                break;
+
+            case 'bluecyan':
+                setColour = '#0000ff';
+                colour.disabled = true;
+                break;
+        }
+
+        if (setColour !== null && !keep_colour) {
+            colour.value = setColour;
+        }
     }
 
     function doDraw(e, type) {
@@ -227,7 +287,13 @@
     }
 
     function pushUndo() {
-        let count = undoBuf.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
+        let count = undoBuf.push(
+            {
+                'imageData': ctx.getImageData(0, 0, canvas.width, canvas.height),
+                'colour': colour.value,
+                'colourMode': colourMode.value
+            }
+        );
 
         while (undoBuf.length > undoBuffers.value) {
             undoBuf.shift();
@@ -241,8 +307,19 @@
             return;
         }
 
-        redoBuf.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-        ctx.putImageData(undoBuf.pop(), 0, 0);
+        redoBuf.push(
+            {
+                'imageData': ctx.getImageData(0, 0, canvas.width, canvas.height),
+                'colour': colour.value,
+                'colourMode': colourMode.value
+            }
+        );
+
+        let data = undoBuf.pop();
+        colour.value = data.colour;
+        colourMode.value = data.colourMode;
+        setColourMode(colourMode.value, true);
+        ctx.putImageData(data.imageData, 0, 0);
     }
 
     function popRedo() {
@@ -250,8 +327,19 @@
             return;
         }
 
-        undoBuf.push(ctx.getImageData(0, 0, canvas.width, canvas.height));
-        ctx.putImageData(redoBuf.pop(), 0, 0);
+        undoBuf.push(
+            {
+                'imageData': ctx.getImageData(0, 0, canvas.width, canvas.height),
+                'colour': colour.value,
+                'colourMode': colourMode.value
+            }
+        );
+
+        let data = redoBuf.pop();
+        colour.value = data.colour;
+        colourMode.value = data.colourMode;
+        setColourMode(colourMode.value, true);
+        ctx.putImageData(data.imageData, 0, 0);
     }
 
     function clearUndoRedo() {
@@ -365,13 +453,8 @@
         });
     }
 
-    rainbow.addEventListener('change', function (e) {
-        if (e.target.checked === true) {
-            colour.disabled = true;
-            colour.value = '#ff0000';
-        } else {
-            colour.disabled = false;
-        }
+    colourMode.addEventListener('change', function (e) {
+        setColourMode(e.target.value);
     });
 </script>
 
