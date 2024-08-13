@@ -6,6 +6,22 @@
                 background-color: black;
                 color: white;
                 margin: 0px;
+                overflow: hidden;
+            }
+
+            .canvas-div {
+                float: left;
+                max-width: 84%;
+            }
+
+            .control-div {
+                float: right;
+                border-left: solid;
+                border-left-color: white;
+                width: 15%;
+                height: 100%;
+                text-align: center;
+                overflow-y: auto;
             }
 
             #canvas {
@@ -27,10 +43,10 @@
         <title>Draw</title>
     </head>
     <body>
-        <div style="float: left; max-width: 84%;" id="canvas_div">
+        <div class="canvas-div" id="canvas_div">
             <canvas id='canvas' width=800 height=800></canvas>
         </div>
-        <div style="float: right; border-left: solid; border-left-color: white; width:15%; height: 100%; text-align: center;">
+        <div class="control-div">
             <p>
                 <input type='color' id='colour' name='colour' value='#000000' class="control-element">
             </p>
@@ -116,18 +132,23 @@
             let lastDrawX = null;
             let lastDrawY = null;
 
-            setScalingStyle();
+            const scalingTimeout = 500;
+            let scalingTimer;
+
+            resetScalingStyle();
+            scalingTimer = setTimeout(setScalingStyle, scalingTimeout);
+
+            function resetScalingStyle() {
+                canvasDiv.style.width = '84%';
+                canvasDiv.style.height = '';
+            }
 
             function setScalingStyle() {
                 const rect = canvas.getBoundingClientRect();
-                canvasDiv.style.width = '';
-                canvasDiv.style.height = '';
 
-                // if (window.innerWidth > window.innerHeight) {
                 if (rect.height > window.innerHeight) {
-                    canvasDiv.style.height = '100%';
-                } else {
-                    canvasDiv.style.width = '84%';
+                    canvasDiv.style.width = '';
+                    canvasDiv.style.height = '99%';
                 }
             }
 
@@ -399,7 +420,9 @@
             }
 
             visualViewport.addEventListener('resize', function (e) {
-                setScalingStyle();
+                resetScalingStyle();
+                clearTimeout(scalingTimer);
+                scalingTimer = setTimeout(setScalingStyle, 500);
             });
 
             clearBtn.addEventListener('click', function (e) {
