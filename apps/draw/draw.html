@@ -70,6 +70,16 @@
             </p>
             <hr>
             <p>
+                BRUSH MODE:<br>
+                <select id='brush_mode' name='brush_mode' class="control-element">
+                    <option value='line'>Line</option>
+                    <option value='cross'>Cross</option>
+                </select>
+            </p>
+            <p>
+                BRUSH JOIN: <input type='checkbox' id='brush_join' name='brush_join' value='1' checked='true'>
+            </p>
+            <p>
                 BRUSH SIZE:<br>
                 <input type='number' id='brush_res' value='1' min='1' max='100' class="control-text-box">
             </p>
@@ -117,6 +127,8 @@
             const redoBtn = document.getElementById('redo');
             const canvasRes = document.getElementById('canvas_res');
             const setBtn = document.getElementById('set_res');
+            const brushMode = document.getElementById('brush_mode');
+            const brushJoin = document.getElementById('brush_join');
             const brushRes = document.getElementById('brush_res');
             const undoBuffers = document.getElementById('undo_buffers');
             const message = document.getElementById('message');
@@ -271,7 +283,7 @@
                 y = Math.floor((y / rect.height) * canvas.height);
 
                 // Use Bresenham's line algorithm to join the gaps in movement points
-                if (lastDrawX !== null && lastDrawY !== null) {
+                if (brushJoin.checked && lastDrawX !== null && lastDrawY !== null) {
                     let currX = parseInt(lastDrawX);
                     let currY = parseInt(lastDrawY);
                     let diffX = Math.abs(x-currX);
@@ -328,10 +340,28 @@
             }
 
             function drawPoint(x, y, colour = '#000000') {
-                ctx.fillStyle = colour;
-                ctx.beginPath();
-                ctx.arc(x, y, brushRes.value, 0, 2 * Math.PI);
-                ctx.fill();
+                brushResInt = parseInt(brushRes.value);
+
+                switch (brushMode.value) {
+                    case 'line':
+                        ctx.fillStyle = colour;
+                        ctx.beginPath();
+                        ctx.arc(x, y, brushResInt, 0, 2 * Math.PI);
+                        ctx.fill();
+
+                        break;
+
+                    case 'cross':
+                        ctx.strokeStyle = colour;
+                        ctx.beginPath();
+                        ctx.moveTo(x-brushResInt, y);
+                        ctx.lineTo(x+brushResInt, y);
+                        ctx.moveTo(x, y-brushResInt);
+                        ctx.lineTo(x, y+brushResInt);
+                        ctx.stroke();
+
+                        break;
+                }
             }
 
             function drawFour(x, y, colour = '#000000') {
