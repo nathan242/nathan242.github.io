@@ -89,6 +89,9 @@
                 BRUSH FILL: <input type='checkbox' id='brush_fill' value='1'>
             </p>
             <p>
+                ROTATE BRUSH: <input type='checkbox' id='brush_rotate' value='1' checked='true'>
+            </p>
+            <p>
                 BRUSH SIZE:<br>
                 <input type='number' id='brush_res' value='1' min='1' max='100' class="control-text-box">
             </p>
@@ -140,6 +143,7 @@
             const brushMode = document.getElementById('brush_mode');
             const brushJoin = document.getElementById('brush_join');
             const brushFill = document.getElementById('brush_fill');
+            const brushRotate = document.getElementById('brush_rotate');
             const brushRes = document.getElementById('brush_res');
             const undoBuffers = document.getElementById('undo_buffers');
             const message = document.getElementById('message');
@@ -327,17 +331,18 @@
                         break;
 
                     case 'rotations':
-                        drawRotations(x, y, rotations.value, false, colour);
+                        drawRotations(x, y, colour, rotations.value, false);
                         break;
 
                     case 'symmetry':
-                        drawRotations(x, y, rotations.value, true, colour);
+                        drawRotations(x, y, colour, rotations.value, true);
                         break;
                 }
             }
 
-            function drawPoint(x, y, colour = '#000000') {
-                brushResInt = parseInt(brushRes.value);
+            function drawPoint(x, y, colour, rotations = null, symmetry = false, index = null) {
+                let brushResInt = parseInt(brushRes.value);
+                let points;
                 ctx.fillStyle = colour;
                 ctx.strokeStyle = colour;
 
@@ -351,10 +356,23 @@
 
                     case 'cross':
                         ctx.beginPath();
-                        ctx.moveTo(x-brushResInt, y);
-                        ctx.lineTo(x+brushResInt, y);
-                        ctx.moveTo(x, y-brushResInt);
-                        ctx.lineTo(x, y+brushResInt);
+                        if (!brushRotate.checked || index === null) {
+                            ctx.moveTo(x-brushResInt, y);
+                            ctx.lineTo(x+brushResInt, y);
+                            ctx.moveTo(x, y-brushResInt);
+                            ctx.lineTo(x, y+brushResInt);
+                        } else {
+                            ctx.moveTo(x, y);
+                            points = getRotationPoints(x, y, x+brushResInt, y, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                            points = getRotationPoints(x, y, x-brushResInt, y, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                            ctx.moveTo(x, y);
+                            points = getRotationPoints(x, y, x, y+brushResInt, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                            points = getRotationPoints(x, y, x, y-brushResInt, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                        }
                         ctx.stroke();
 
                         break;
@@ -368,35 +386,62 @@
 
                     case 'horizontal-line':
                         ctx.beginPath();
-                        ctx.moveTo(x-brushResInt, y);
-                        ctx.lineTo(x+brushResInt, y);
+                        if (!brushRotate.checked || index === null) {
+                            ctx.moveTo(x-brushResInt, y);
+                            ctx.lineTo(x+brushResInt, y);
+                        } else {
+                            ctx.moveTo(x, y);
+                            points = getRotationPoints(x, y, x+brushResInt, y, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                            points = getRotationPoints(x, y, x-brushResInt, y, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                        }
                         ctx.stroke();
 
                         break;
 
                     case 'vertical-line':
                         ctx.beginPath();
-                        ctx.moveTo(x, y-brushResInt);
-                        ctx.lineTo(x, y+brushResInt);
+                        if (!brushRotate.checked || index === null) {
+                            ctx.moveTo(x, y-brushResInt);
+                            ctx.lineTo(x, y+brushResInt);
+                        } else {
+                            ctx.moveTo(x, y);
+                            points = getRotationPoints(x, y, x, y+brushResInt, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                            points = getRotationPoints(x, y, x, y-brushResInt, rotations, symmetry);
+                            ctx.lineTo(points[index][0], points[index][1]);
+                        }
                         ctx.stroke();
 
                         break;
                 }
             }
 
-            function drawRotations(x, y, rotations, symmetry = false, colour = '#000000') {
+            function drawRotations(x, y, colour, rotations, symmetry) {
+                let points = getRotationPoints(centerX, centerY, x, y, rotations, symmetry);
+
+                for (let i = 0; i < points.length; i++) {
+                    drawPoint(points[i][0], points[i][1], colour, rotations, symmetry, i);
+                }
+            }
+
+            function getRotationPoints(centerX, centerY, x, y, rotations, symmetry) {
+                let points = [];
                 const angleIncrement = 2 * Math.PI / rotations;
 
                 for (let i = 0; i < rotations; i++) {
                     let angle = angleIncrement * i;
                     let xr = centerX + (x - centerX) * Math.cos(angle) - (y - centerY) * Math.sin(angle);
                     let yr = centerY + (x - centerX) * Math.sin(angle) + (y - centerY) * Math.cos(angle);
-                    drawPoint(xr, yr, colour);
+                    points.push([xr, yr]);
 
                     if (symmetry) {
-                        drawPoint(2 * centerX - xr, yr, colour);
+                        points.push([2 * centerX - xr, yr]);
                     }
                 }
+
+                return points;
             }
 
             function pushUndo() {
