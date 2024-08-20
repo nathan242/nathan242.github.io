@@ -48,10 +48,10 @@
         </div>
         <div class="control-div">
             <p>
-                <input type='color' id='colour' name='colour' value='#000000' class="control-element">
+                <input type='color' id='colour' value='#000000' class="control-element">
             </p>
             <p>
-                <select id='colour_mode' name='colour_mode' class="control-element">
+                <select id='colour_mode' class="control-element">
                     <option value='single'>Single Colour</option>
                     <option value='rainbow'>Rainbow</option>
                     <option value='redorange'>Red-Orange</option>
@@ -60,18 +60,21 @@
             </p>
             <hr>
             <p>
-                SYMMETRY:<br>
-                <input type='radio' id='mode-eight' name='mode' value='8'>
-                <label for='mode-eight'>8</label>
-                <input type='radio' id='mode-four' name='mode' value='4'>
-                <label for='mode-four'>4</label>
-                <input type='radio' id='mode-one' name='mode' value='1'>
-                <label for='mode-one'>None</label>
+                DRAW MODE:<br>
+                <select id='drawing_mode' class='control-element'>
+                    <option value='single'>Single</option>
+                    <option value='rotations'>Rotations</option>
+                    <option value='symmetry'>Rotations+Symmetry</option>
+                </select>
+            </p>
+            <p>
+                ROTATIONS:<br>
+                <input type='number' id='rotations' value='4' min='1' class='control-text-box'>
             </p>
             <hr>
             <p>
                 BRUSH MODE:<br>
-                <select id='brush_mode' name='brush_mode' class="control-element">
+                <select id='brush_mode' class="control-element">
                     <option value='line'>Line</option>
                     <option value='cross'>Cross</option>
                     <option value='square'>Square</option>
@@ -80,10 +83,10 @@
                 </select>
             </p>
             <p>
-                BRUSH JOIN: <input type='checkbox' id='brush_join' name='brush_join' value='1' checked='true'>
+                BRUSH JOIN: <input type='checkbox' id='brush_join' value='1' checked='true'>
             </p>
             <p>
-                BRUSH FILL: <input type='checkbox' id='brush_fill' name='brush_fill' value='1'>
+                BRUSH FILL: <input type='checkbox' id='brush_fill' value='1'>
             </p>
             <p>
                 BRUSH SIZE:<br>
@@ -126,7 +129,8 @@
             const ctx = canvas.getContext('2d');
             const colour = document.getElementById('colour');
             const colourMode = document.getElementById('colour_mode');
-            const mode = document.getElementsByName('mode');
+            const drawingMode = document.getElementById('drawing_mode');
+            const rotations = document.getElementById('rotations');
             const clearBtn = document.getElementById('clear');
             const saveBtn = document.getElementById('save');
             const undoBtn = document.getElementById('undo');
@@ -147,7 +151,6 @@
             let centerY = canvas.height / 2;
 
             let draw = false;
-            let currMode = getMode();
             let lastDrawX = null;
             let lastDrawY = null;
 
@@ -174,19 +177,6 @@
             function clear() {
                 pushUndo();
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
-            }
-
-            function getMode() {
-                let selectedMode = null;
-
-                for (let i = 0; i < mode.length; i++) {
-                    if (mode[i].checked) {
-                        selectedMode = mode[i].value;
-                        break;
-                    }
-                }
-
-                return selectedMode;
             }
 
             function getColour() {
@@ -331,17 +321,17 @@
             }
 
             function drawMode(x, y, colour) {
-                switch (currMode) {
-                    case '1':
+                switch (drawingMode.value) {
+                    case 'single':
                         drawPoint(x, y, colour);
                         break;
 
-                    case '4':
-                        drawFour(x, y, colour);
+                    case 'rotations':
+                        drawRotations(x, y, rotations.value, false, colour);
                         break;
 
-                    case '8':
-                        drawEight(x, y, colour);
+                    case 'symmetry':
+                        drawRotations(x, y, rotations.value, true, colour);
                         break;
                 }
             }
@@ -394,28 +384,19 @@
                 }
             }
 
-            function drawFour(x, y, colour = '#000000') {
-                let xm = centerX + (centerX - x);
-                let ym = centerY + (centerY - y);
+            function drawRotations(x, y, rotations, symmetry = false, colour = '#000000') {
+                const angleIncrement = 2 * Math.PI / rotations;
 
-                drawPoint(x ,y, colour);
-                drawPoint(xm, y, colour);
-                drawPoint(xm, ym, colour);
-                drawPoint(x, ym, colour);
-            }
+                for (let i = 0; i < rotations; i++) {
+                    let angle = angleIncrement * i;
+                    let xr = centerX + (x - centerX) * Math.cos(angle) - (y - centerY) * Math.sin(angle);
+                    let yr = centerY + (x - centerX) * Math.sin(angle) + (y - centerY) * Math.cos(angle);
+                    drawPoint(xr, yr, colour);
 
-            function drawEight(x, y, colour = '#000000') {
-                let xm = centerX + (centerX - x);
-                let ym = centerY + (centerY - y);
-
-                drawPoint(x ,y, colour);
-                drawPoint(xm, y, colour);
-                drawPoint(xm, ym, colour);
-                drawPoint(x, ym, colour);
-                drawPoint(y ,x, colour);
-                drawPoint(y, xm, colour);
-                drawPoint(ym, xm, colour);
-                drawPoint(ym, x, colour);
+                    if (symmetry) {
+                        drawPoint(2 * centerX - xr, yr, colour);
+                    }
+                }
             }
 
             function pushUndo() {
@@ -584,12 +565,6 @@
                     e.preventDefault();
                 }
             });
-
-            for (let i = 0; i < mode.length; i++) {
-                mode[i].addEventListener('change', function (e) {
-                    currMode = getMode();
-                });
-            }
 
             colourMode.addEventListener('change', function (e) {
                 setColourMode(e.target.value);
