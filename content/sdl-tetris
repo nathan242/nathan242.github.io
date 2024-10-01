@@ -1,0 +1,30 @@
+TITLE=SDL-Tetris
+CATEGORY=10:Projects
+DESC=Tetris game using SDL2
+ORDER=53
+==
+<h1>SDL-Tetris</h1>
+<p>Project repo: <a href='https://github.com/nathan242/sdl-tetris'>LINK</a></p>
+<p>Compiled to WebAssembly: <a href='apps/tetris/tetris.html'>PLAY IN BROWSER</a></p>
+
+<h4>Introduction</h4>
+<p>Tetris game in C++ using SDL2.</p>
+<img src='images/tetris.png' style='border: 1px solid; border-color; #000000;' width='270' height='278'>
+
+<h4>Details</h4>
+<p>Use the arrow keys to move the tetrominoes. Press up to rotate and down to fast drop. Press Q to quit. The level increments every 10 lines and cannot go higher than level 9 (yet). Scoring works as follows:</p>
+<p>
+  <ul>
+    <li><strong>1 Line</strong> - 40 x (level + 1)</li>
+    <li><strong>2 Lines</strong> - 100 x (level + 1)</li>
+    <li><strong>3 Lines</strong> - 300 x (level + 1)</li>
+    <li><strong>4 Lines</strong> - 1200 x (level + 1)</li>
+  </ul>
+</p>
+
+<h4>Todo</h4>
+<ul>
+  <li>Allow levels higher than 9.</li>
+  <li>Fix tetromino rotation algorithm.</li>
+</ul>
+
