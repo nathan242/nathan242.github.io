@@ -1,0 +1,17 @@
+TITLE=JSON Schema Generator
+CATEGORY=40:Web Tools
+DESC=Generate schema from JSON
+ORDER=30
+==
+<h1>JSON Schema Generator</h1>
+<p><a href='apps/json_schema_generator/json_schema_generator.html' target='_blank'>OPEN</a></p>
+
+<h4>Introduction</h4>
+<p>Generate JSON schema for a provided JSON sample.</p>
+
+<h4>Notes</h4>
+<ul>
+  <li>Implemented entirely in a single HTML file so can be saved and used independently</li>
+  <li>Not heavily tested - may have bugs</li>
+</ul>
+

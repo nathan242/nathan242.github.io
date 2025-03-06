@@ -1,0 +1,179 @@
+<!doctype html>
+<!--
+MIT License
+
+Copyright (c) 2024 Nathan Patrizi
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+-->
+    <head>
+        <style>
+            html, body {
+                height: 99%;
+                background-color: black;
+                color: white;
+                margin: 0px;
+            }
+
+            .text-box {
+                width: 100%;
+                background-color: black;
+                color: white;
+            }
+        </style>
+        <title>JSON Schema Generator</title>
+    </head>
+    <body>
+        <p>JSON:</p>
+        <p><textarea id='json' rows=20 class='text-box'></textarea></p>
+        <p><button id='generate' type="button">Generate Schema</button></p>
+        <hr>
+        <p>Schema:</p>
+        <p><pre id='schema'></pre></p>
+
+        <script>
+            const jsonIn = document.getElementById('json');
+            const generateBtn = document.getElementById('generate');
+            const schemaOut = document.getElementById('schema');
+
+            const typeMap = {
+                'string': 'string',
+                'number': 'number',
+                'boolean': 'boolean',
+                'bigint': 'integer',
+                'object': 'object',
+                // 'symbol': '',
+                'null': 'null',
+                'undefined': 'null'
+            };
+
+            function getType(variable) {
+                let type = typeof variable;
+                type = typeMap[type] ?? 'unknown';
+
+                if (variable === null) {
+                    type = 'null';
+                } else if (type === 'object' && Array.isArray(variable)) {
+                    type = 'array';
+                } else if (type === 'number' && variable % 1 === 0) {
+                    type = 'integer';
+                }
+
+                return type;
+            }
+
+            function getObjectProperties(variable, schemaObj) {
+                for (const [key, value] of Object.entries(variable)) {
+                    schemaObj[key] = {};
+                    const type = getType(value);
+                    if (type === 'object' || type === 'array') {
+                        buildSchema(value, schemaObj[key]);
+                    } else {
+                        schemaObj[key]['type'] = type;
+                    }
+                }
+            }
+
+            function getArrayItems(variable, schemaObj) {
+                const anyOfArr = [];
+
+                for (let i = 0; i < variable.length; ++i) {
+                    const anyOf = {
+                        'type': getType(variable[i])
+                    };
+
+                    if (anyOf['type'] === 'object' || anyOf['type'] === 'array') {
+                        buildSchema(variable[i], anyOf);
+                    }
+
+                    anyOfArr.push(anyOf);
+                }
+
+                uniqueObjects(anyOfArr);
+                schemaObj['anyOf'] = anyOfArr;
+            }
+
+            function uniqueObjects(variable) {
+                const removeKeys = [];
+
+                for (let i = 0; i < variable.length; ++i) {
+                    if (removeKeys.includes(i)) {
+                        continue;
+                    }
+
+                    const json = JSON.stringify(variable[i]);
+
+                    for (let iI = 0; iI < variable.length; ++iI) {
+                        if (iI === i || removeKeys.includes(iI)) {
+                            continue;
+                        }
+
+                        const iJson = JSON.stringify(variable[iI]);
+
+                        if (json === iJson) {
+                            removeKeys.push(iI);
+                        }
+                    }
+                }
+
+                removeKeys.sort(function (a, b) { return a - b; }).reverse();
+
+                for (let iR = 0; iR < removeKeys.length; ++iR) {
+                    variable.splice(removeKeys[iR], 1);
+                }
+            }
+
+            function buildSchema(root, schemaObj) {
+                schemaObj['type'] = getType(root);
+
+                if (schemaObj['type'] === 'object') {
+                    schemaObj['properties'] = {};
+                    getObjectProperties(root, schemaObj['properties']);
+                } else if (schemaObj['type'] === 'array') {
+                    schemaObj['items'] = {};
+                    getArrayItems(root, schemaObj['items']);
+                }
+            }
+
+            function generateSchema() {
+                let jsonObj;
+
+                try {
+                    jsonObj = JSON.parse(jsonIn.value);
+                } catch (e) {
+                    schemaOut.innerText = e;
+                    return;
+                }
+
+                schemaObj = {
+                    '$schema': 'http://json-schema.org/draft-04/schema#'
+                };
+
+                buildSchema(jsonObj, schemaObj);
+
+                schemaOut.innerText = JSON.stringify(schemaObj, null, 4);
+            }
+
+            generateBtn.addEventListener('click', function (e) {
+                generateSchema();
+            });
+        </script>
+    </body>
+</html>
+
