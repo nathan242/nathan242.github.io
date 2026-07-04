@@ -39,7 +39,7 @@ if (ENVIRONMENT_IS_NODE) {
 
 // --pre-jses are emitted after the Module integration code, so that they can
 // refer to Module (if they choose; they can also define Module)
-// include: /tmp/tmpxn9ohed7.js
+// include: /tmp/tmp7053k2ni.js
 
   if (!Module.expectedDataFileDownloads) {
     Module.expectedDataFileDownloads = 0;
@@ -216,25 +216,25 @@ Module['FS_createPath']("/", "textures", true, true);
     }
 
     }
-    loadPackage({"files": [{"filename": "/textures/0.png", "start": 0, "end": 589}, {"filename": "/textures/1.png", "start": 589, "end": 883}, {"filename": "/textures/2.png", "start": 883, "end": 1438}, {"filename": "/textures/3.png", "start": 1438, "end": 2033}, {"filename": "/textures/4.png", "start": 2033, "end": 2489}, {"filename": "/textures/5.png", "start": 2489, "end": 2984}, {"filename": "/textures/6.png", "start": 2984, "end": 3669}, {"filename": "/textures/7.png", "start": 3669, "end": 4048}, {"filename": "/textures/8.png", "start": 4048, "end": 4750}, {"filename": "/textures/9.png", "start": 4750, "end": 5408}, {"filename": "/textures/background.png", "start": 5408, "end": 20140}, {"filename": "/textures/blue.png", "start": 20140, "end": 20273}, {"filename": "/textures/boundary_line.png", "start": 20273, "end": 20523}, {"filename": "/textures/cyan.png", "start": 20523, "end": 20657}, {"filename": "/textures/game_over.png", "start": 20657, "end": 21010}, {"filename": "/textures/green.png", "start": 21010, "end": 21139}, {"filename": "/textures/level.png", "start": 21139, "end": 22376}, {"filename": "/textures/lines.png", "start": 22376, "end": 24185}, {"filename": "/textures/next.png", "start": 24185, "end": 26448}, {"filename": "/textures/paused.png", "start": 26448, "end": 27996}, {"filename": "/textures/purple.png", "start": 27996, "end": 28130}, {"filename": "/textures/red.png", "start": 28130, "end": 28259}, {"filename": "/textures/score.png", "start": 28259, "end": 30553}, {"filename": "/textures/white.png", "start": 30553, "end": 30688}, {"filename": "/textures/yellow.png", "start": 30688, "end": 30820}], "remote_package_size": 30820});
+    loadPackage({"files": [{"filename": "/textures/0.png", "start": 0, "end": 589}, {"filename": "/textures/1.png", "start": 589, "end": 883}, {"filename": "/textures/2.png", "start": 883, "end": 1438}, {"filename": "/textures/3.png", "start": 1438, "end": 2033}, {"filename": "/textures/4.png", "start": 2033, "end": 2489}, {"filename": "/textures/5.png", "start": 2489, "end": 2984}, {"filename": "/textures/6.png", "start": 2984, "end": 3669}, {"filename": "/textures/7.png", "start": 3669, "end": 4048}, {"filename": "/textures/8.png", "start": 4048, "end": 4750}, {"filename": "/textures/9.png", "start": 4750, "end": 5408}, {"filename": "/textures/background.png", "start": 5408, "end": 20703}, {"filename": "/textures/blue.png", "start": 20703, "end": 20836}, {"filename": "/textures/boundary_line.png", "start": 20836, "end": 21086}, {"filename": "/textures/cyan.png", "start": 21086, "end": 21220}, {"filename": "/textures/game_over.png", "start": 21220, "end": 21573}, {"filename": "/textures/green.png", "start": 21573, "end": 21702}, {"filename": "/textures/level.png", "start": 21702, "end": 22939}, {"filename": "/textures/lines.png", "start": 22939, "end": 24748}, {"filename": "/textures/next.png", "start": 24748, "end": 27011}, {"filename": "/textures/paused.png", "start": 27011, "end": 28559}, {"filename": "/textures/purple.png", "start": 28559, "end": 28693}, {"filename": "/textures/red.png", "start": 28693, "end": 28822}, {"filename": "/textures/score.png", "start": 28822, "end": 31116}, {"filename": "/textures/white.png", "start": 31116, "end": 31251}, {"filename": "/textures/yellow.png", "start": 31251, "end": 31383}], "remote_package_size": 31383});
 
   })();
 
-// end include: /tmp/tmpxn9ohed7.js
-// include: /tmp/tmpjvw806qe.js
+// end include: /tmp/tmp7053k2ni.js
+// include: /tmp/tmppho00x5o.js
 
     // All the pre-js content up to here must remain later on, we need to run
     // it.
     if (Module['$ww'] || (typeof ENVIRONMENT_IS_PTHREAD != 'undefined' && ENVIRONMENT_IS_PTHREAD)) Module['preRun'] = [];
     var necessaryPreJSTasks = Module['preRun'].slice();
-  // end include: /tmp/tmpjvw806qe.js
-// include: /tmp/tmpp3y6yvn_.js
+  // end include: /tmp/tmppho00x5o.js
+// include: /tmp/tmppbu9lpx8.js
 
     if (!Module['preRun']) throw 'Module.preRun should exist because file support used it; did a pre-js delete it?';
     necessaryPreJSTasks.forEach((task) => {
       if (Module['preRun'].indexOf(task) < 0) throw 'All preRun tasks that exist before user pre-js code should remain after; did you replace Module or modify Module.preRun?';
     });
-  // end include: /tmp/tmpp3y6yvn_.js
+  // end include: /tmp/tmppbu9lpx8.js
 
 
 // Sometimes an existing Module object exists with properties
